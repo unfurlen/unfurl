@@ -14,7 +14,7 @@ Collection of games and experiences with URL-based state. Frontend only, no back
 ## Conventions
 
 - No backend calls, ever
-- Strict TDD
+- Strict TDD - always follow red-green-refactor cycle
 - Lean thinking - slice everything as small as possible
 - Propose small changes, one file at a time
 - Every decision documented in `docs/decisions/`
