@@ -20,4 +20,6 @@ Collection of games and experiences with URL-based state. Frontend only, no back
 - Every decision documented in `docs/decisions/`
 - Preview all changes before writing
 - Capture working conventions in this file
+- Separate pure logic (app.js) from DOM bootstrap (index.js)
+- Test files mirror source files they test
 - Keep context extremely curated - nothing unnecessary
