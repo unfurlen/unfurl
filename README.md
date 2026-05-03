@@ -1,2 +1,2 @@
 # unfurl
-Colltion of experiences with URL-based state.
+A Collection of experiences with URL-based state.
