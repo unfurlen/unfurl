@@ -18,3 +18,6 @@ Collection of games and experiences with URL-based state. Frontend only, no back
 - Lean thinking - slice everything as small as possible
 - Propose small changes, one file at a time
 - Every decision documented in `docs/decisions/`
+- Preview all changes before writing
+- Capture working conventions in this file
+- Keep context extremely curated - nothing unnecessary
