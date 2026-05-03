@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import { render } from './index.js';
+import { render } from './app.js';
 
 describe('render', () => {
   it('returns "Hello World"', () => {

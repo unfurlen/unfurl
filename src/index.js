@@ -1,3 +1,3 @@
-export function render() {
-  return 'Hello World';
-}
+import { render } from './app.js';
+
+document.getElementById('app').textContent = render();
