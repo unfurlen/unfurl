@@ -22,4 +22,5 @@ Collection of games and experiences with URL-based state. Frontend only, no back
 - Capture working conventions in this file
 - Separate pure logic (app.js) from DOM bootstrap (index.js)
 - Test files mirror source files they test
+- Fixed dependency versions (no ^ ranges)
 - Keep context extremely curated - nothing unnecessary
