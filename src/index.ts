@@ -1,6 +1,6 @@
-import { Cell } from './cell.ts';
-import { render } from './renderer.ts';
+import { Grid } from './grid.ts';
+import { renderGrid } from './renderer.ts';
 
-const cell = new Cell();
+const grid = new Grid();
 const app = document.getElementById('app')!;
-app.replaceChildren(render(cell));
+app.replaceChildren(renderGrid(grid));
