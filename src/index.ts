@@ -1,3 +1,6 @@
-import { render } from './app.js';
+import { Cell } from './cell.ts';
+import { render } from './renderer.ts';
 
-document.getElementById('app').textContent = render();
+const cell = new Cell();
+const app = document.getElementById('app')!;
+app.replaceChildren(render(cell));
