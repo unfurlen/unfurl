@@ -1,3 +1,4 @@
+import './style.css';
 import { Grid } from './grid.ts';
 import { renderGrid } from './renderer.ts';
 
