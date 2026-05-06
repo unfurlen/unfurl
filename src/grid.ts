@@ -1,5 +1,7 @@
 import { Cell } from './cell.ts';
 
+export const SIZE = 3;
+
 export class InvalidPositionError extends Error {
   constructor(row: number, col: number) {
     super(`Invalid grid position: (${row}, ${col})`);
@@ -10,17 +12,14 @@ export class InvalidPositionError extends Error {
 export class Grid {
   private cells: Cell[][];
 
-  readonly width: number = 3;
-  readonly height: number = 3;
-
   constructor() {
-    this.cells = Array.from({ length: this.height }, () =>
-      Array.from({ length: this.width }, () => new Cell())
+    this.cells = Array.from({ length: SIZE }, () =>
+      Array.from({ length: SIZE }, () => new Cell())
     );
   }
 
   getCell(row: number, col: number): Cell {
-    if (row < 0 || row >= this.height || col < 0 || col >= this.width) {
+    if (row < 0 || row >= SIZE || col < 0 || col >= SIZE) {
       throw new InvalidPositionError(row, col);
     }
     return this.cells[row][col];

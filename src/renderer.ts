@@ -1,5 +1,5 @@
 import { Cell } from './cell.ts';
-import { Grid } from './grid.ts';
+import { Grid, SIZE } from './grid.ts';
 
 export function renderCell(cell: Cell): HTMLElement {
   const div = document.createElement('div');
@@ -11,8 +11,8 @@ export function renderGrid(grid: Grid): HTMLElement {
   const container = document.createElement('div');
   container.className = 'grid';
 
-  for (let row = 0; row < grid.height; row++) {
-    for (let col = 0; col < grid.width; col++) {
+  for (let row = 0; row < SIZE; row++) {
+    for (let col = 0; col < SIZE; col++) {
       container.appendChild(renderCell(grid.getCell(row, col)));
     }
   }

@@ -1,3 +1,5 @@
+import { SIZE } from './grid.ts';
+
 export type Player = 'X' | 'O';
 
 export class InvalidMoveError extends Error {
@@ -13,7 +15,7 @@ export class Move {
     readonly col: number,
     readonly player: Player
   ) {
-    if (row < 0 || row >= 3 || col < 0 || col >= 3) {
+    if (row < 0 || row >= SIZE || col < 0 || col >= SIZE) {
       throw new InvalidMoveError(row, col, player);
     }
     if (player !== 'X' && player !== 'O') {
@@ -21,8 +23,6 @@ export class Move {
     }
   }
 }
-
-const SIZE = 3;
 
 export function parseHash(hash: string): Move[] {
   if (!hash || hash === '#') {
