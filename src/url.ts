@@ -1,5 +1,13 @@
 import { SIZE } from './grid.ts';
-import { Move, Player, InvalidMoveError } from './move.ts';
+import { Move } from './move.ts';
+import { Player } from './player.ts';
+
+export class URLParseError extends Error {
+  constructor(input: string) {
+    super(`Failed to parse URL hash: '${input}'`);
+    this.name = 'URLParseError';
+  }
+}
 
 export function parseHash(hash: string): Move[] {
   if (!hash || hash === '#') {
@@ -12,11 +20,11 @@ export function parseHash(hash: string): Move[] {
   return chars.map((char, i) => {
     const index = Number(char);
     if (isNaN(index) || index >= totalCells) {
-      throw new InvalidMoveError(NaN, NaN, char);
+      throw new URLParseError(char);
     }
     const row = Math.floor(index / SIZE);
     const col = index % SIZE;
-    const player: Player = i % 2 === 0 ? 'X' : 'O';
+    const player: Player = i % 2 === 0 ? Player.X : Player.O;
     return new Move(row, col, player);
   });
 }
