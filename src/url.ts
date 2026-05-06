@@ -1,37 +1,19 @@
 import { SIZE } from './grid.ts';
-
-export type Player = 'X' | 'O';
-
-export class InvalidMoveError extends Error {
-  constructor(row: number, col: number, player: string) {
-    super(`Invalid move: (${row}, ${col}, ${player})`);
-    this.name = 'InvalidMoveError';
-  }
-}
-
-export class Move {
-  constructor(
-    readonly row: number,
-    readonly col: number,
-    readonly player: Player
-  ) {
-    if (row < 0 || row >= SIZE || col < 0 || col >= SIZE) {
-      throw new InvalidMoveError(row, col, player);
-    }
-    if (player !== 'X' && player !== 'O') {
-      throw new InvalidMoveError(row, col, player);
-    }
-  }
-}
+import { Move, Player, InvalidMoveError } from './move.ts';
 
 export function parseHash(hash: string): Move[] {
   if (!hash || hash === '#') {
     return [];
   }
 
-  const indices = hash.slice(1).split('').map(Number);
+  const chars = hash.slice(1).split('');
+  const totalCells = SIZE * SIZE;
 
-  return indices.map((index, i) => {
+  return chars.map((char, i) => {
+    const index = Number(char);
+    if (isNaN(index) || index >= totalCells) {
+      throw new InvalidMoveError(NaN, NaN, char);
+    }
     const row = Math.floor(index / SIZE);
     const col = index % SIZE;
     const player: Player = i % 2 === 0 ? 'X' : 'O';

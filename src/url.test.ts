@@ -1,5 +1,6 @@
 import { describe, it, expect } from 'vitest';
-import { parseHash, Move } from './url.ts';
+import { parseHash } from './url.ts';
+import { Move, InvalidMoveError } from './move.ts';
 
 describe('parseHash', () => {
   it('returns empty array for empty hash', () => {
@@ -20,5 +21,17 @@ describe('parseHash', () => {
       new Move(0, 1, 'X'),
       new Move(1, 1, 'O'),
     ]);
+  });
+
+  it('throws InvalidMoveError for non-numeric hash', () => {
+    expect(() => parseHash('#abc')).toThrow(InvalidMoveError);
+  });
+
+  it('throws InvalidMoveError for out of bounds index', () => {
+    expect(() => parseHash('#9')).toThrow(InvalidMoveError);
+  });
+
+  it('throws InvalidMoveError for mixed valid and invalid chars', () => {
+    expect(() => parseHash('#0a')).toThrow(InvalidMoveError);
   });
 });

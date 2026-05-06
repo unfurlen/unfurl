@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import { Move, InvalidMoveError } from './url.ts';
+import { Move, InvalidMoveError } from './move.ts';
 import { SIZE } from './grid.ts';
 
 describe('Move', () => {
