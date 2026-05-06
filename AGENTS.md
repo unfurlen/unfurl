@@ -20,7 +20,8 @@ Collection of games and experiences with URL-based state. Frontend only, no back
 - Every decision documented in `docs/decisions/`
 - Preview all changes before writing
 - Capture working conventions in this file
-- Separate pure logic (app.js) from DOM bootstrap (index.js)
+- Separate pure logic from DOM bootstrap (index.ts)
 - Test files mirror source files they test
+- Event sourcing via URL hash - all game state derived from move sequence
 - Fixed dependency versions (no ^ ranges)
 - Keep context extremely curated - nothing unnecessary
