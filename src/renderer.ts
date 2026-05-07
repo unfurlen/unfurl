@@ -1,10 +1,12 @@
 import { Cell } from './cell.ts';
 import { Grid, SIZE } from './grid.ts';
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
 export function renderCell(cell: Cell): HTMLElement {
   const div = document.createElement('div');
   div.className = 'cell';
+  if (cell.player) {
+    div.textContent = cell.player;
+  }
   return div;
 }
 

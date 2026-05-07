@@ -1,4 +1,5 @@
 import { Cell } from './cell.ts';
+import { Move } from './move.ts';
 
 export const SIZE = 3;
 
@@ -23,5 +24,9 @@ export class Grid {
       throw new InvalidPositionError(row, col);
     }
     return this.cells[row][col];
+  }
+
+  applyMove(move: Move): void {
+    this.cells[move.row][move.col] = new Cell(move.player);
   }
 }

@@ -1,6 +1,7 @@
 import { describe, it, expect } from 'vitest';
 import { Cell } from './cell.ts';
 import { Grid } from './grid.ts';
+import { Player } from './player.ts';
 import { renderCell, renderGrid } from './renderer.ts';
 
 describe('renderCell', () => {
@@ -8,6 +9,13 @@ describe('renderCell', () => {
     const cell = new Cell();
     const result = renderCell(cell);
     expect(result.classList.contains('cell')).toBe(true);
+    expect(result.textContent).toBe('');
+  });
+
+  it('renders a cell with the player symbol', () => {
+    const cell = new Cell(Player.X);
+    const result = renderCell(cell);
+    expect(result.textContent).toBe(Player.X);
   });
 });
 

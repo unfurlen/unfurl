@@ -1,6 +1,8 @@
 import { describe, it, expect } from 'vitest';
 import { Grid, InvalidPositionError } from './grid.ts';
 import { Cell } from './cell.ts';
+import { Move } from './move.ts';
+import { Player } from './player.ts';
 
 describe('Grid', () => {
   it.each([
@@ -21,5 +23,11 @@ describe('Grid', () => {
   ])('throws InvalidPositionError for (%i, %i)', (row, col) => {
     const grid = new Grid();
     expect(() => grid.getCell(row, col)).toThrow(InvalidPositionError);
+  });
+
+  it('applies a move and marks the cell', () => {
+    const grid = new Grid();
+    grid.applyMove(new Move(0, 0, Player.X));
+    expect(grid.getCell(0, 0).player).toBe(Player.X);
   });
 });
