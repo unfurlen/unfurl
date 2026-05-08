@@ -33,11 +33,12 @@ export function renderGrid(grid: Grid): HTMLElement {
   return container;
 }
 
-export function renderResult(winner: Player | null): HTMLElement | null {
-  if (!winner) return null;
+export function renderResult(winner: Player | null): HTMLElement {
   const div = document.createElement('div');
   div.className = 'result';
-  div.textContent = `${winner} wins!`;
+  if (winner) {
+    div.textContent = `${winner} wins!`;
+  }
   return div;
 }
 

@@ -29,8 +29,9 @@ describe('renderGrid', () => {
 });
 
 describe('renderResult', () => {
-  it('returns null when there is no winner', () => {
-    expect(renderResult(null)).toBeNull();
+  it('returns empty element when there is no winner', () => {
+    const el = renderResult(null);
+    expect(el.textContent).toBe('');
   });
 
   it('returns element with winner text', () => {

@@ -10,12 +10,10 @@ function render() {
     grid.applyMove(move);
   }
   const app = document.getElementById('app')!;
-  app.replaceChildren(renderGrid(grid));
-
-  const result = renderResult(grid.winner());
-  if (result) {
-    app.appendChild(result);
-  }
+  app.replaceChildren(
+    renderResult(grid.winner()),
+    renderGrid(grid)
+  );
 
   app.appendChild(renderControls(
     async () => {
