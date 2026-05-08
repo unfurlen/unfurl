@@ -28,3 +28,7 @@ export function parseHash(hash: string): Move[] {
     return new Move(row, col, player);
   });
 }
+
+export function buildHash(hash: string, cellIndex: number): string {
+  return '#' + (hash.replace(/^#/, '') || '') + cellIndex;
+}

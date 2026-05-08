@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import { parseHash, URLParseError } from './url.ts';
+import { parseHash, buildHash, URLParseError } from './url.ts';
 import { Move } from './move.ts';
 
 describe('parseHash', () => {
@@ -33,5 +33,15 @@ describe('parseHash', () => {
 
   it('throws URLParseError for mixed valid and invalid chars', () => {
     expect(() => parseHash('#0a')).toThrow(URLParseError);
+  });
+});
+
+describe('buildHash', () => {
+  it('returns hash with index from empty string', () => {
+    expect(buildHash('', 0)).toBe('#0');
+  });
+
+  it('appends to existing hash', () => {
+    expect(buildHash('#02', 1)).toBe('#021');
   });
 });

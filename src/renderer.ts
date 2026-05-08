@@ -1,5 +1,6 @@
 import { Cell } from './cell.ts';
 import { Grid, SIZE } from './grid.ts';
+import { buildHash } from './url.ts';
 
 export function renderCell(cell: Cell): HTMLElement {
   const div = document.createElement('div');
@@ -16,7 +17,15 @@ export function renderGrid(grid: Grid): HTMLElement {
 
   for (let row = 0; row < SIZE; row++) {
     for (let col = 0; col < SIZE; col++) {
-      container.appendChild(renderCell(grid.getCell(row, col)));
+      const index = row * SIZE + col;
+      const cell = grid.getCell(row, col);
+      const cellEl = renderCell(cell);
+      if (!cell.player) {
+        cellEl.addEventListener('click', () => {
+          location.hash = buildHash(location.hash, index);
+        });
+      }
+      container.appendChild(cellEl);
     }
   }
 
