@@ -1,6 +1,6 @@
 import './style.css';
 import { Grid } from './grid.ts';
-import { renderGrid, renderResult, renderShareButton } from './renderer.ts';
+import { renderGrid, renderResult, renderControls } from './renderer.ts';
 import { parseHash } from './url.ts';
 
 function render() {
@@ -12,12 +12,21 @@ function render() {
   const app = document.getElementById('app')!;
   app.replaceChildren(renderGrid(grid));
 
-  app.appendChild(renderShareButton());
-
   const result = renderResult(grid.winner());
   if (result) {
     app.appendChild(result);
   }
+
+  app.appendChild(renderControls(
+    async () => {
+      const url = window.location.href;
+      if (navigator.share) {
+        await navigator.share({ url });
+      } else {
+        await navigator.clipboard.writeText(url);
+      }
+    }
+  ));
 }
 
 render();

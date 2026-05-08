@@ -41,17 +41,25 @@ export function renderResult(winner: Player | null): HTMLElement | null {
   return div;
 }
 
-export function renderShareButton(): HTMLElement {
-  const button = document.createElement('button');
-  button.className = 'share';
-  button.textContent = 'Share';
-  button.addEventListener('click', async () => {
-    const url = window.location.href;
-    if (navigator.share) {
-      await navigator.share({ url });
-    } else {
-      await navigator.clipboard.writeText(url);
-    }
-  });
-  return button;
+export function renderControls(onShare: () => void): HTMLElement {
+  const container = document.createElement('div');
+  container.className = 'controls';
+
+  const back = document.createElement('button');
+  back.className = 'back';
+  back.innerHTML = '◀';
+  back.addEventListener('click', () => history.back());
+
+  const forward = document.createElement('button');
+  forward.className = 'forward';
+  forward.innerHTML = '▶';
+  forward.addEventListener('click', () => history.forward());
+
+  const share = document.createElement('button');
+  share.className = 'share';
+  share.innerHTML = '🔗';
+  share.addEventListener('click', onShare);
+
+  container.append(back, share, forward);
+  return container;
 }
