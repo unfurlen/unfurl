@@ -40,3 +40,18 @@ export function renderResult(winner: Player | null): HTMLElement | null {
   div.textContent = `${winner} wins!`;
   return div;
 }
+
+export function renderShareButton(): HTMLElement {
+  const button = document.createElement('button');
+  button.className = 'share';
+  button.textContent = 'Share';
+  button.addEventListener('click', async () => {
+    const url = window.location.href;
+    if (navigator.share) {
+      await navigator.share({ url });
+    } else {
+      await navigator.clipboard.writeText(url);
+    }
+  });
+  return button;
+}

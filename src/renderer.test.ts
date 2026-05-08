@@ -2,7 +2,7 @@ import { describe, it, expect } from 'vitest';
 import { Cell } from './cell.ts';
 import { Grid } from './grid.ts';
 import { Player } from './player.ts';
-import { renderCell, renderGrid, renderResult } from './renderer.ts';
+import { renderCell, renderGrid, renderResult, renderShareButton } from './renderer.ts';
 
 describe('renderCell', () => {
   it('renders an empty cell', () => {
@@ -36,5 +36,13 @@ describe('renderResult', () => {
   it('returns element with winner text', () => {
     const el = renderResult(Player.X);
     expect(el!.textContent).toBe('X wins!');
+  });
+});
+
+describe('renderShareButton', () => {
+  it('renders a share button', () => {
+    const el = renderShareButton();
+    expect(el.classList.contains('share')).toBe(true);
+    expect(el.textContent).toBe('Share');
   });
 });

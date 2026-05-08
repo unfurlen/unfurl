@@ -1,6 +1,6 @@
 import './style.css';
 import { Grid } from './grid.ts';
-import { renderGrid, renderResult } from './renderer.ts';
+import { renderGrid, renderResult, renderShareButton } from './renderer.ts';
 import { parseHash } from './url.ts';
 
 function render() {
@@ -11,6 +11,8 @@ function render() {
   }
   const app = document.getElementById('app')!;
   app.replaceChildren(renderGrid(grid));
+
+  app.appendChild(renderShareButton());
 
   const result = renderResult(grid.winner());
   if (result) {
