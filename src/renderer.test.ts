@@ -2,7 +2,7 @@ import { describe, it, expect } from 'vitest';
 import { Cell } from './cell.ts';
 import { Grid } from './grid.ts';
 import { Player } from './player.ts';
-import { renderCell, renderGrid } from './renderer.ts';
+import { renderCell, renderGrid, renderResult } from './renderer.ts';
 
 describe('renderCell', () => {
   it('renders an empty cell', () => {
@@ -25,5 +25,16 @@ describe('renderGrid', () => {
     const result = renderGrid(grid);
     expect(result.classList.contains('grid')).toBe(true);
     expect(result.querySelectorAll('.cell').length).toBe(9);
+  });
+});
+
+describe('renderResult', () => {
+  it('returns null when there is no winner', () => {
+    expect(renderResult(null)).toBeNull();
+  });
+
+  it('returns element with winner text', () => {
+    const el = renderResult(Player.X);
+    expect(el!.textContent).toBe('X wins!');
   });
 });

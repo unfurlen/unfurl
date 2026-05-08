@@ -30,4 +30,17 @@ describe('Grid', () => {
     grid.applyMove(new Move(0, 0, Player.X));
     expect(grid.getCell(0, 0).player).toBe(Player.X);
   });
+
+  it('returns null for empty grid winner', () => {
+    const grid = new Grid();
+    expect(grid.winner()).toBeNull();
+  });
+
+  it('detects X winning on top row', () => {
+    const grid = new Grid();
+    grid.applyMove(new Move(0, 0, Player.X));
+    grid.applyMove(new Move(0, 1, Player.X));
+    grid.applyMove(new Move(0, 2, Player.X));
+    expect(grid.winner()).toBe(Player.X);
+  });
 });
