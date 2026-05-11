@@ -32,3 +32,26 @@ export function parseHash(hash: string): Move[] {
 export function buildHash(hash: string, cellIndex: number): string {
   return '#' + (hash.replace(/^#/, '') || '') + cellIndex;
 }
+
+export function getCurrHistory(moves: Move[]): number[] {
+  return moves.map(move => move.row * SIZE + move.col);
+}
+
+function isPrefix(shorter: number[], longer: number[]): boolean {
+  return shorter.every((val, i) => val === longer[i]);
+}
+
+export function getFullHistory(fullHistory: number[], currHistory: number[]): number[] {
+  if (isPrefix(currHistory, fullHistory)) return fullHistory;
+  return [...currHistory];
+}
+
+export function getBackUrl(currHistory: number[]): string | null {
+  if (currHistory.length === 0) return null;
+  return '#' + currHistory.slice(0, -1).join('');
+}
+
+export function getForwardUrl(currHistory: number[], fullHistory: number[]): string | null {
+  if (currHistory.length >= fullHistory.length) return null;
+  return '#' + fullHistory.slice(0, currHistory.length + 1).join('');
+}

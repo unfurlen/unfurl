@@ -42,19 +42,31 @@ export function renderResult(winner: Player | null): HTMLElement {
   return div;
 }
 
-export function renderControls(onShare: () => void): HTMLElement {
+export function renderControls(
+  backUrl: string | null,
+  forwardUrl: string | null,
+  onShare: () => void
+): HTMLElement {
   const container = document.createElement('div');
   container.className = 'controls';
 
   const back = document.createElement('button');
   back.className = 'back';
   back.innerHTML = '◀';
-  back.addEventListener('click', () => history.back());
+  if (backUrl !== null) {
+    back.addEventListener('click', () => { location.hash = backUrl; });
+  } else {
+    back.disabled = true;
+  }
 
   const forward = document.createElement('button');
   forward.className = 'forward';
   forward.innerHTML = '▶';
-  forward.addEventListener('click', () => history.forward());
+  if (forwardUrl !== null) {
+    forward.addEventListener('click', () => { location.hash = forwardUrl; });
+  } else {
+    forward.disabled = true;
+  }
 
   const share = document.createElement('button');
   share.className = 'share';

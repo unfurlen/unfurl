@@ -1,14 +1,23 @@
 import './style.css';
 import { Grid } from './grid.ts';
 import { renderGrid, renderResult, renderControls } from './renderer.ts';
-import { parseHash } from './url.ts';
+import { parseHash, getCurrHistory, getFullHistory, getBackUrl, getForwardUrl } from './url.ts';
+
+let fullHistory: number[] = [];
 
 function render() {
-  const grid = new Grid();
   const moves = parseHash(location.hash);
+  const grid = new Grid();
   for (const move of moves) {
     grid.applyMove(move);
   }
+
+  const currHistory = getCurrHistory(moves);
+  fullHistory = getFullHistory(fullHistory, currHistory);
+
+  const backUrl = getBackUrl(currHistory);
+  const forwardUrl = getForwardUrl(currHistory, fullHistory);
+
   const app = document.getElementById('app')!;
   app.replaceChildren(
     renderResult(grid.winner()),
@@ -16,6 +25,8 @@ function render() {
   );
 
   app.appendChild(renderControls(
+    backUrl,
+    forwardUrl,
     async () => {
       const url = window.location.href;
       if (navigator.share) {
