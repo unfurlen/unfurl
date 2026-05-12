@@ -31,5 +31,5 @@ export function parseMapUrl(hash: string): Map {
   const width = parseDimension(wStr, 'width');
   const height = parseDimension(hStr, 'height');
 
-  return new Map(width, height);
+  return new Map(width, height, 0, 0);
 }
