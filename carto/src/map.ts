@@ -1,6 +1,8 @@
 import { Tile } from './tile.ts';
 import { Biome } from './biome.ts';
 
+export const MAX_SIZE = 10;
+
 export class InvalidPositionError extends Error {
   constructor(row: number, col: number) {
     super(`Invalid map position: (${row}, ${col})`);
@@ -8,10 +10,20 @@ export class InvalidPositionError extends Error {
   }
 }
 
+export class InvalidMapSizeError extends Error {
+  constructor(width: number, height: number) {
+    super(`Invalid map size: ${width}x${height}. Must be 1-${MAX_SIZE}.`);
+    this.name = 'InvalidMapSizeError';
+  }
+}
+
 export class Map {
   readonly tiles: Tile[][];
 
   constructor(readonly width: number, readonly height: number) {
+    if (width < 1 || width > MAX_SIZE || height < 1 || height > MAX_SIZE) {
+      throw new InvalidMapSizeError(width, height);
+    }
     this.tiles = Array.from({ length: height }, () =>
       Array.from({ length: width }, () => new Tile(Biome.Field))
     );
