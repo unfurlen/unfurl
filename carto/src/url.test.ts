@@ -20,7 +20,7 @@ describe('parseMapUrl', () => {
 
   it('parses step limit', () => {
     const { map } = parseMapUrl('#FFF,FFF,FFF:0,0:7');
-    expect(map.stepLimit).toBe(7);
+    expect(map.supplies).toBe(7);
   });
 
   it('throws for empty hash', () => {

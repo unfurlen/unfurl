@@ -61,12 +61,12 @@ export function parseMapUrl(hash: string): { map: Map; path: Direction[] } {
   const startRow = parseNonNegativeInt(startParts[0]);
   const startCol = parseNonNegativeInt(startParts[1]);
 
-  const stepLimit = Number(parts[2]);
-  if (!Number.isInteger(stepLimit) || stepLimit < 1) throw new URLParseError(hash);
+  const supplies = Number(parts[2]);
+  if (!Number.isInteger(supplies) || supplies < 1) throw new URLParseError(hash);
 
   const path = parts[3] ? parsePath(parts[3]) : [];
 
-  return { map: new Map(startRow, startCol, biomes, stepLimit), path };
+  return { map: new Map(startRow, startCol, biomes, supplies), path };
 }
 
 export function buildMapUrl(hash: string, direction: Direction): string {

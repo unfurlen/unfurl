@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import { Map, Direction, InvalidPositionError, InvalidMapSizeError, InvalidStepLimitError } from './map.ts';
+import { Map, Direction, InvalidPositionError, InvalidMapSizeError, InvalidSuppliesError } from './map.ts';
 import { Biome } from './biome.ts';
 
 function fieldGrid(w: number, h: number): Biome[][] {
@@ -54,14 +54,14 @@ describe('Map', () => {
   });
 });
 
-describe('stepLimit', () => {
-  it('stores step limit', () => {
+describe('supplies', () => {
+  it('stores supplies', () => {
     const map = new Map(0, 0, fieldGrid(3, 3), 99);
-    expect(map.stepLimit).toBe(99);
+    expect(map.supplies).toBe(99);
   });
 
-  it.each([0, -1])('throws for invalid step limit: %i', (limit) => {
-    expect(() => new Map(0, 0, fieldGrid(3, 3), limit)).toThrow(InvalidStepLimitError);
+  it.each([0, -1])('throws for invalid supplies: %i', (supplies) => {
+    expect(() => new Map(0, 0, fieldGrid(3, 3), supplies)).toThrow(InvalidSuppliesError);
   });
 });
 

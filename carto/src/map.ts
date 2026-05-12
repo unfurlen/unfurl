@@ -26,10 +26,10 @@ export class InvalidMapSizeError extends Error {
   }
 }
 
-export class InvalidStepLimitError extends Error {
+export class InvalidSuppliesError extends Error {
   constructor(limit: number) {
-    super(`Invalid step limit: ${limit}`);
-    this.name = 'InvalidStepLimitError';
+    super(`Invalid supplies: ${limit}`);
+    this.name = 'InvalidSuppliesError';
   }
 }
 
@@ -38,14 +38,13 @@ export class Map {
   player: Player;
   readonly width: number;
   readonly height: number;
-  readonly stepLimit: number;
-  moves: number = 0;
+  supplies: number;
 
   constructor(
     startRow: number,
     startCol: number,
     biomes: Biome[][],
-    stepLimit: number,
+    supplies: number,
   ) {
     this.height = biomes.length;
     if (this.height === 0) throw new InvalidMapSizeError(0, 0);
@@ -64,9 +63,9 @@ export class Map {
       throw new InvalidPositionError(startRow, startCol);
     }
 
-    this.stepLimit = stepLimit;
-    if (!Number.isInteger(stepLimit) || stepLimit < 1) {
-      throw new InvalidStepLimitError(stepLimit);
+    this.supplies = supplies;
+    if (!Number.isInteger(supplies) || supplies < 1) {
+      throw new InvalidSuppliesError(supplies);
     }
     this.tiles = Array.from({ length: this.height }, (_, row) =>
       Array.from({ length: this.width }, (_, col) => new Tile(biomes[row][col]))
@@ -97,7 +96,7 @@ export class Map {
 
     this.tiles[newRow][newCol] = this.tiles[newRow][newCol].visit();
     this.player = new Player(newRow, newCol);
-    this.moves++;
+    this.supplies--;
   }
 
   isComplete(): boolean {
@@ -107,6 +106,6 @@ export class Map {
   }
 
   isGameOver(): boolean {
-    return this.isComplete() || this.moves >= this.stepLimit;
+    return this.isComplete() || this.supplies <= 0;
   }
 }

@@ -188,22 +188,22 @@ describe('renderControls', () => {
 describe('renderResult', () => {
   it('shows step count when not completed and not expired', () => {
     const el = renderResult(3, 9, false);
-    expect(el.textContent).toBe('Steps: 3 / 9');
+    expect(el.textContent).toBe('Steps: 3, Supplies: 9');
   });
 
   it('shows step count and completion message when completed', () => {
-    const el = renderResult(7, 9, true);
-    expect(el.textContent).toBe('Steps: 7 / 9 — Map completed!');
+    const el = renderResult(7, 2, true);
+    expect(el.textContent).toBe('Steps: 7, Supplies: 2 — Map completed!');
   });
 
-  it('shows expired message when expired', () => {
-    const el = renderResult(9, 9, false);
-    expect(el.textContent).toBe('Steps: 9 / 9 — Expired!');
+  it('shows out of supplies message when out of supplies', () => {
+    const el = renderResult(5, 0, false);
+    expect(el.textContent).toBe('Steps: 5, Supplies: 0 — Out of supplies!');
   });
 
   it('shows completed when both completed and at limit', () => {
-    const el = renderResult(9, 9, true);
-    expect(el.textContent).toBe('Steps: 9 / 9 — Map completed!');
+    const el = renderResult(9, 0, true);
+    expect(el.textContent).toBe('Steps: 9, Supplies: 0 — Map completed!');
   });
 
   it('shows correct class', () => {

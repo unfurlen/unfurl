@@ -78,15 +78,15 @@ export function renderControls(
   return container;
 }
 
-export function renderResult(steps: number, stepLimit: number, completed: boolean): HTMLElement {
+export function renderResult(steps: number, supplies: number, completed: boolean): HTMLElement {
   const el = document.createElement('div');
   el.className = 'result';
-  const expired = steps >= stepLimit && !completed;
-  let message = `Steps: ${steps} / ${stepLimit}`;
+  const outOfSupplies = supplies <= 0 && !completed;
+  let message = `Steps: ${steps}, Supplies: ${supplies}`;
   if (completed) {
     message += ' — Map completed!';
-  } else if (expired) {
-    message += ' — Expired!';
+  } else if (outOfSupplies) {
+    message += ' — Out of supplies!';
   }
   el.textContent = message;
   return el;
