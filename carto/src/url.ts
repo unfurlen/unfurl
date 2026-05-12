@@ -1,4 +1,5 @@
 import { Map, Direction } from './map.ts';
+import { Biome } from './biome.ts';
 
 export class URLParseError extends Error {
   constructor(input: string) {
@@ -7,20 +8,32 @@ export class URLParseError extends Error {
   }
 }
 
-function parseDimension(input: string): number {
-  const n = Number(input);
-  if (!Number.isInteger(n) || n < 1) {
-    throw new URLParseError(input);
-  }
-  return n;
-}
-
 function parseNonNegativeInt(input: string): number {
   const n = Number(input);
   if (!Number.isInteger(n) || n < 0) {
     throw new URLParseError(input);
   }
   return n;
+}
+
+function parseBiomes(input: string): Biome[][] {
+  const rows = input.split(',');
+  if (rows.length === 0 || rows[0].length === 0) throw new URLParseError(input);
+
+  const width = rows[0].length;
+  const biomes: Biome[][] = [];
+
+  for (const row of rows) {
+    if (row.length !== width) throw new URLParseError(input);
+    const biomeRow: Biome[] = [];
+    for (const ch of row) {
+      if (ch === 'F') biomeRow.push(Biome.Field);
+      else if (ch === 'W') biomeRow.push(Biome.Water);
+      else throw new URLParseError(input);
+    }
+    biomes.push(biomeRow);
+  }
+  return biomes;
 }
 
 const VALID_DIRECTIONS = new Set<string>([Direction.N, Direction.S, Direction.E, Direction.W]);
@@ -39,35 +52,25 @@ export function parseMapUrl(hash: string): { map: Map; path: Direction[] } {
   if (!cleaned) throw new URLParseError(hash);
 
   const parts = cleaned.split(':');
-  const dimStr = parts[0];
-  const xIndex = dimStr.indexOf('x');
-  if (xIndex === -1) throw new URLParseError(hash);
+  if (parts.length < 2 || !parts[1]) throw new URLParseError(hash);
 
-  const wStr = dimStr.slice(0, xIndex);
-  const hStr = dimStr.slice(xIndex + 1);
-  if (!wStr || !hStr) throw new URLParseError(hash);
+  const biomes = parseBiomes(parts[0]);
 
-  const width = parseDimension(wStr);
-  const height = parseDimension(hStr);
-
-  let startRow = 0;
-  let startCol = 0;
-  if (parts[1]) {
-    const [sr, sc] = parts[1].split(',');
-    startRow = parseNonNegativeInt(sr);
-    startCol = parseNonNegativeInt(sc);
-  }
+  const startParts = parts[1].split(',');
+  if (startParts.length !== 2) throw new URLParseError(hash);
+  const startRow = parseNonNegativeInt(startParts[0]);
+  const startCol = parseNonNegativeInt(startParts[1]);
 
   const path = parts[2] ? parsePath(parts[2]) : [];
 
-  return { map: new Map(width, height, startRow, startCol), path };
+  return { map: new Map(startRow, startCol, biomes), path };
 }
 
 export function buildMapUrl(hash: string, direction: Direction): string {
   const cleaned = hash.replace(/^#/, '');
   const parts = cleaned.split(':');
   const dims = parts[0];
-  const start = parts[1] || '0,0';
+  const start = parts[1];
   const currPath = parts.slice(2).join('') || '';
   return `#${dims}:${start}:${currPath}${direction}`;
 }
@@ -76,7 +79,7 @@ function getBase(hash: string): string {
   const cleaned = hash.replace(/^#/, '');
   const parts = cleaned.split(':');
   const dims = parts[0];
-  const start = parts[1] || '0,0';
+  const start = parts[1];
   return `${dims}:${start}`;
 }
 

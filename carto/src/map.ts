@@ -86,6 +86,8 @@ export class Map {
   }
 
   isComplete(): boolean {
-    return this.tiles.every(row => row.every(tile => tile.visited));
+    return this.tiles.every(row =>
+      row.every(tile => tile.biome === Biome.Water || tile.visited)
+    );
   }
 }

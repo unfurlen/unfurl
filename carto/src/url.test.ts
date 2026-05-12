@@ -1,30 +1,21 @@
 import { describe, it, expect } from 'vitest';
 import { Direction } from './map.ts';
+import { Biome } from './biome.ts';
 import { parseMapUrl, buildMapUrl, getFullHistory, getBackUrl, getForwardUrl, URLParseError } from './url.ts';
 
 describe('parseMapUrl', () => {
-  it('parses square map dimensions', () => {
-    const { map } = parseMapUrl('#5x5');
-    expect(map.width).toBe(5);
-    expect(map.height).toBe(5);
+  it('parses biome grid', () => {
+    const { map } = parseMapUrl('#FFF,FFF,FWF:1,1');
+    expect(map.width).toBe(3);
+    expect(map.height).toBe(3);
+    expect(map.getTile(2, 1).biome).toBe(Biome.Water);
+    expect(map.getTile(1, 2).biome).toBe(Biome.Field);
   });
 
-  it('parses non-square map dimensions', () => {
-    const { map } = parseMapUrl('#4x6');
-    expect(map.width).toBe(4);
-    expect(map.height).toBe(6);
-  });
-
-  it('parses start position', () => {
-    const { map } = parseMapUrl('#5x5:1,2');
+  it('places player at start position', () => {
+    const { map } = parseMapUrl('#FFF,FFF,FFF:1,2');
     expect(map.player.row).toBe(1);
     expect(map.player.col).toBe(2);
-  });
-
-  it('defaults to (0,0) when no start given', () => {
-    const { map } = parseMapUrl('#5x5');
-    expect(map.player.row).toBe(0);
-    expect(map.player.col).toBe(0);
   });
 
   it('throws for empty hash', () => {
@@ -36,23 +27,25 @@ describe('parseMapUrl', () => {
   });
 
   it.each([
-    ['#axb'],
-    ['#-1x5'],
-    ['#2.5x3'],
-    ['#x5'],
-    ['#5x'],
-    ['#5'],
-  ])('throws for invalid dimensions: %s', (hash) => {
+    '#FFF,FFF,FFX:0,0',
+    '#FFF,FFF,FFx:0,0',
+  ])('throws for invalid biome char: %s', (hash) => {
     expect(() => parseMapUrl(hash)).toThrow(URLParseError);
   });
 
+  it('throws for jagged biome rows', () => {
+    expect(() => parseMapUrl('#FFF,FF:0,0')).toThrow(URLParseError);
+  });
+
+  it('throws when no start position', () => {
+    expect(() => parseMapUrl('#FFF,FFF,FFF')).toThrow(URLParseError);
+  });
+
   it.each([
-    ['#5x5:1'],
-    ['#5x5:a,b'],
-    ['#5x5:-1,0'],
-    ['#5x5:0,-1'],
-    ['#5x5:1.5,2'],
-    ['#5x5:1,2.5'],
+    '#FFF,FFF,FFF:',
+    '#FFF,FFF,FFF:a',
+    '#FFF,FFF,FFF:-1,0',
+    '#FFF,FFF,FFF:1.5,2',
   ])('throws for invalid start: %s', (hash) => {
     expect(() => parseMapUrl(hash)).toThrow(URLParseError);
   });
@@ -60,24 +53,24 @@ describe('parseMapUrl', () => {
 
 describe('parseMapUrl path', () => {
   it('parses path from URL', () => {
-    const { path } = parseMapUrl('#5x5:0,0:NESE');
+    const { path } = parseMapUrl('#FFF,FFF,FFF:0,0:NESE');
     expect(path).toEqual([Direction.N, Direction.E, Direction.S, Direction.E]);
   });
 
   it('defaults to empty path when no colon after start', () => {
-    const { path } = parseMapUrl('#5x5:0,0');
+    const { path } = parseMapUrl('#FFF,FFF,FFF:0,0');
     expect(path).toEqual([]);
   });
 
   it('defaults to empty path when path segment is empty', () => {
-    const { path } = parseMapUrl('#5x5:0,0:');
+    const { path } = parseMapUrl('#FFF,FFF,FFF:0,0:');
     expect(path).toEqual([]);
   });
 
   it.each([
-    '#5x5:0,0:X',
-    '#5x5:0,0:NE1W',
-    '#5x5:0,0:nesw',
+    '#FFF,FFF,FFF:0,0:X',
+    '#FFF,FFF,FFF:0,0:NE1W',
+    '#FFF,FFF,FFF:0,0:nesw',
   ])('throws for invalid char in path: %s', (hash) => {
     expect(() => parseMapUrl(hash)).toThrow(URLParseError);
   });
@@ -85,19 +78,15 @@ describe('parseMapUrl path', () => {
 
 describe('buildMapUrl', () => {
   it('appends direction to hash with start but no path', () => {
-    expect(buildMapUrl('#5x5:0,0', Direction.N)).toBe('#5x5:0,0:N');
+    expect(buildMapUrl('#FFF,FFF,FFF:0,0', Direction.N)).toBe('#FFF,FFF,FFF:0,0:N');
   });
 
   it('appends direction to existing path', () => {
-    expect(buildMapUrl('#5x5:0,0:NE', Direction.S)).toBe('#5x5:0,0:NES');
-  });
-
-  it('appends direction to hash with just dimensions', () => {
-    expect(buildMapUrl('#5x5', Direction.E)).toBe('#5x5:0,0:E');
+    expect(buildMapUrl('#FFF,FFF,FFF:0,0:NE', Direction.S)).toBe('#FFF,FFF,FFF:0,0:NES');
   });
 
   it('appends direction to hash with trailing colon', () => {
-    expect(buildMapUrl('#5x5:0,0:', Direction.W)).toBe('#5x5:0,0:W');
+    expect(buildMapUrl('#FFF,FFF,FFF:0,0:', Direction.W)).toBe('#FFF,FFF,FFF:0,0:W');
   });
 });
 
@@ -123,19 +112,15 @@ describe('getFullHistory', () => {
 
 describe('getBackUrl', () => {
   it('returns null when currHistory is empty', () => {
-    expect(getBackUrl('#3x3:1,1', [])).toBeNull();
+    expect(getBackUrl('#FFF,FFF,FFF:1,1', [])).toBeNull();
   });
 
   it('removes last direction from path', () => {
-    expect(getBackUrl('#3x3:1,1', [Direction.N, Direction.E])).toBe('#3x3:1,1:N');
+    expect(getBackUrl('#FFF,FFF,FFF:1,1', [Direction.N, Direction.E])).toBe('#FFF,FFF,FFF:1,1:N');
   });
 
   it('returns empty path after single move', () => {
-    expect(getBackUrl('#3x3:1,1', [Direction.N])).toBe('#3x3:1,1:');
-  });
-
-  it('handles hash without explicit start', () => {
-    expect(getBackUrl('#5x5', [Direction.N])).toBe('#5x5:0,0:');
+    expect(getBackUrl('#FFF,FFF,FFF:1,1', [Direction.N])).toBe('#FFF,FFF,FFF:1,1:');
   });
 });
 
@@ -143,18 +128,18 @@ describe('getForwardUrl', () => {
   it('returns null when currHistory equals fullHistory', () => {
     const full: Direction[] = [Direction.N, Direction.E];
     const curr: Direction[] = [Direction.N, Direction.E];
-    expect(getForwardUrl('#3x3:1,1', curr, full)).toBeNull();
+    expect(getForwardUrl('#FFF,FFF,FFF:1,1', curr, full)).toBeNull();
   });
 
   it('returns next direction from fullHistory', () => {
     const full: Direction[] = [Direction.N, Direction.E, Direction.S];
     const curr: Direction[] = [Direction.N, Direction.E];
-    expect(getForwardUrl('#3x3:1,1', curr, full)).toBe('#3x3:1,1:NES');
+    expect(getForwardUrl('#FFF,FFF,FFF:1,1', curr, full)).toBe('#FFF,FFF,FFF:1,1:NES');
   });
 
   it('returns first direction when currHistory is empty', () => {
     const full: Direction[] = [Direction.N];
     const curr: Direction[] = [];
-    expect(getForwardUrl('#3x3:1,1', curr, full)).toBe('#3x3:1,1:N');
+    expect(getForwardUrl('#FFF,FFF,FFF:1,1', curr, full)).toBe('#FFF,FFF,FFF:1,1:N');
   });
 });

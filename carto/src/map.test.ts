@@ -98,7 +98,7 @@ describe('isComplete', () => {
     expect(map.isComplete()).toBe(false);
   });
 
-  it('returns true when all tiles are visited', () => {
+  it('returns true when all field tiles are visited', () => {
     const map = new Map(0, 0, fieldGrid(2, 2));
     map.applyMove(Direction.E);
     map.applyMove(Direction.S);
@@ -110,5 +110,10 @@ describe('isComplete', () => {
     const map = new Map(0, 0, fieldGrid(2, 2));
     map.applyMove(Direction.E);
     expect(map.isComplete()).toBe(false);
+  });
+
+  it('returns true when water tiles remain unvisited', () => {
+    const map = new Map(0, 0, [[Biome.Field, Biome.Water]]);
+    expect(map.isComplete()).toBe(true);
   });
 });

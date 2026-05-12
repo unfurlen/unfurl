@@ -1,4 +1,5 @@
 import { Map, Direction } from './map.ts';
+import { Biome } from './biome.ts';
 import { buildMapUrl } from './url.ts';
 
 export function renderMap(map: Map): HTMLElement {
@@ -10,7 +11,10 @@ export function renderMap(map: Map): HTMLElement {
     for (let col = 0; col < map.width; col++) {
       const tileEl = document.createElement('div');
       tileEl.className = 'tile';
-      tileEl.textContent = 'field';
+      tileEl.textContent = map.tiles[row][col].biome;
+      if (map.tiles[row][col].biome === Biome.Water) {
+        tileEl.classList.add('water');
+      }
       if (row === map.player.row && col === map.player.col) {
         tileEl.classList.add('player');
       }
@@ -20,7 +24,7 @@ export function renderMap(map: Map): HTMLElement {
 
       const dRow = Math.abs(row - map.player.row);
       const dCol = Math.abs(col - map.player.col);
-      if (dRow + dCol === 1) {
+      if (dRow + dCol === 1 && map.tiles[row][col].biome !== Biome.Water && !map.isComplete()) {
         let dir: Direction;
         if (row === map.player.row - 1) dir = Direction.N;
         else if (row === map.player.row + 1) dir = Direction.S;

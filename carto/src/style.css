@@ -35,6 +35,11 @@ body {
   color: #ccc;
 }
 
+.tile.water {
+  background: #1a3a5c;
+  color: #4a8ab5;
+}
+
 .result {
   color: #fff;
   font-size: 18px;
