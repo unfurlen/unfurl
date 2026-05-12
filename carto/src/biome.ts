@@ -1,2 +1,2 @@
-export const Biome = { Field: 'field' } as const;
-export type Biome = typeof Biome[keyof typeof Biome];
+export const Biome = { Field: 'field', Water: 'water' } as const;
+export type Biome = (typeof Biome)[keyof typeof Biome];
