@@ -2,8 +2,6 @@ import { Tile } from './tile.ts';
 import { Biome } from './biome.ts';
 import { Player } from './player.ts';
 
-export const MAX_SIZE = 10;
-
 export const Direction = { N: 'N', S: 'S', E: 'E', W: 'W' } as const;
 export type Direction = (typeof Direction)[keyof typeof Direction];
 
@@ -23,7 +21,7 @@ export class InvalidPositionError extends Error {
 
 export class InvalidMapSizeError extends Error {
   constructor(width: number, height: number) {
-    super(`Invalid map size: ${width}x${height}. Must be 1-${MAX_SIZE}.`);
+    super(`Invalid map size: ${width}x${height}.`);
     this.name = 'InvalidMapSizeError';
   }
 }
@@ -31,21 +29,33 @@ export class InvalidMapSizeError extends Error {
 export class Map {
   readonly tiles: Tile[][];
   player: Player;
+  readonly width: number;
+  readonly height: number;
 
   constructor(
-    readonly width: number,
-    readonly height: number,
     startRow: number,
     startCol: number,
+    biomes: Biome[][],
   ) {
-    if (width < 1 || width > MAX_SIZE || height < 1 || height > MAX_SIZE) {
-      throw new InvalidMapSizeError(width, height);
+    this.height = biomes.length;
+    if (this.height === 0) throw new InvalidMapSizeError(0, 0);
+    this.width = biomes[0].length;
+    if (this.width === 0) throw new InvalidMapSizeError(this.width, this.height);
+
+    if (biomes.some(row => row.length !== this.width)) {
+      throw new InvalidMapSizeError(this.width, this.height);
     }
-    if (startRow < 0 || startRow >= height || startCol < 0 || startCol >= width) {
+
+    if (startRow < 0 || startRow >= this.height || startCol < 0 || startCol >= this.width) {
       throw new InvalidPositionError(startRow, startCol);
     }
-    this.tiles = Array.from({ length: height }, () =>
-      Array.from({ length: width }, () => new Tile(Biome.Field))
+
+    if (biomes[startRow][startCol] === Biome.Water) {
+      throw new InvalidPositionError(startRow, startCol);
+    }
+
+    this.tiles = Array.from({ length: this.height }, (_, row) =>
+      Array.from({ length: this.width }, (_, col) => new Tile(biomes[row][col]))
     );
     this.tiles[startRow][startCol] = this.tiles[startRow][startCol].visit();
     this.player = new Player(startRow, startCol);
@@ -64,6 +74,10 @@ export class Map {
     const newCol = this.player.col + dc;
 
     if (newRow < 0 || newRow >= this.height || newCol < 0 || newCol >= this.width) {
+      throw new InvalidPositionError(newRow, newCol);
+    }
+
+    if (this.tiles[newRow][newCol].biome === Biome.Water) {
       throw new InvalidPositionError(newRow, newCol);
     }
 
