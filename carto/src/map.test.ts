@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import { Map, InvalidPositionError, InvalidMapSizeError } from './map.ts';
+import { Map, Direction, InvalidPositionError, InvalidMapSizeError } from './map.ts';
 import { Biome } from './biome.ts';
 
 describe('Map', () => {
@@ -8,7 +8,7 @@ describe('Map', () => {
     expect(map.tiles.length).toBe(5);
     expect(map.tiles[0].length).toBe(5);
     expect(map.getTile(0, 0).biome).toBe(Biome.Field);
-    expect(map.getTile(0, 0).visited).toBe(false);
+    expect(map.getTile(1, 1).visited).toBe(false);
   });
 
   it.each([
@@ -36,6 +36,12 @@ describe('Map', () => {
     expect(map.player.col).toBe(2);
   });
 
+  it('marks start tile as visited', () => {
+    const map = new Map(3, 3, 1, 2);
+    expect(map.getTile(1, 2).visited).toBe(true);
+    expect(map.getTile(0, 0).visited).toBe(false);
+  });
+
   it.each([
     [-1, 0],
     [3, 0],
@@ -43,5 +49,36 @@ describe('Map', () => {
     [0, 3],
   ])('throws for player out of bounds at (%i, %i)', (row, col) => {
     expect(() => new Map(3, 3, row, col)).toThrow(InvalidPositionError);
+  });
+});
+
+describe('applyMove', () => {
+  it.each([
+    [Direction.E, 0, 0, 0, 1],
+    [Direction.S, 0, 0, 1, 0],
+    [Direction.N, 1, 0, 0, 0],
+    [Direction.W, 0, 1, 0, 0],
+  ])('%s moves player to (%i, %i)', (dir, sr, sc, er, ec) => {
+    const map = new Map(3, 3, sr, sc);
+    map.applyMove(dir);
+    expect(map.player.row).toBe(er);
+    expect(map.player.col).toBe(ec);
+  });
+
+  it('marks destination tile as visited', () => {
+    const map = new Map(3, 3, 0, 0);
+    expect(map.getTile(0, 1).visited).toBe(false);
+    map.applyMove(Direction.E);
+    expect(map.getTile(0, 1).visited).toBe(true);
+  });
+
+  it.each([
+    [Direction.N, 0, 0],
+    [Direction.W, 0, 0],
+    [Direction.S, 2, 0],
+    [Direction.E, 0, 2],
+  ])('throws for OOB %s from (%i, %i)', (dir, r, c) => {
+    const map = new Map(3, 3, r, c);
+    expect(() => map.applyMove(dir)).toThrow(InvalidPositionError);
   });
 });

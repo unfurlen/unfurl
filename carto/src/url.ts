@@ -1,4 +1,4 @@
-import { Map } from './map.ts';
+import { Map, Direction } from './map.ts';
 
 export class URLParseError extends Error {
   constructor(input: string) {
@@ -23,7 +23,18 @@ function parseNonNegativeInt(input: string): number {
   return n;
 }
 
-export function parseMapUrl(hash: string): Map {
+const VALID_DIRECTIONS = new Set<string>([Direction.N, Direction.S, Direction.E, Direction.W]);
+
+function parsePath(input: string): Direction[] {
+  for (const ch of input) {
+    if (!VALID_DIRECTIONS.has(ch)) {
+      throw new URLParseError(input);
+    }
+  }
+  return input.split('') as Direction[];
+}
+
+export function parseMapUrl(hash: string): { map: Map; path: Direction[] } {
   const cleaned = hash.replace(/^#/, '');
   if (!cleaned) throw new URLParseError(hash);
 
@@ -47,5 +58,16 @@ export function parseMapUrl(hash: string): Map {
     startCol = parseNonNegativeInt(sc);
   }
 
-  return new Map(width, height, startRow, startCol);
+  const path = parts[2] ? parsePath(parts[2]) : [];
+
+  return { map: new Map(width, height, startRow, startCol), path };
+}
+
+export function buildMapUrl(hash: string, direction: Direction): string {
+  const cleaned = hash.replace(/^#/, '');
+  const parts = cleaned.split(':');
+  const dims = parts[0];
+  const start = parts[1] || '0,0';
+  const currPath = parts.slice(2).join('') || '';
+  return `#${dims}:${start}:${currPath}${direction}`;
 }
