@@ -25,3 +25,10 @@ Collection of games and experiences with URL-based state. Frontend only, no back
 - Event sourcing via URL hash - all game state derived from move sequence
 - Fixed dependency versions (no ^ ranges)
 - Keep context extremely curated - nothing unnecessary
+
+## Projects
+
+- `oxo/` — Noughts & Crosses (complete)
+- `carto/` — Cartographer puzzle grid (in progress)
+
+Each project has its own `index.html`, `src/`, and test files. Shared dependencies are in the root `package.json`. Vite multi-page build outputs all projects to `dist/`.

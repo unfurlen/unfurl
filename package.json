@@ -6,8 +6,8 @@
     "dev": "vite",
     "test": "vitest run",
     "build": "vite build",
-    "lint": "eslint src",
-    "lint:fix": "eslint src --fix"
+    "lint": "eslint oxo/src carto/src",
+    "lint:fix": "eslint oxo/src carto/src --fix"
   },
   "devDependencies": {
     "eslint": "10.3.0",
