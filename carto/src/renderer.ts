@@ -10,6 +10,9 @@ export function renderMap(map: Map): HTMLElement {
       const tile = document.createElement('div');
       tile.className = 'tile';
       tile.textContent = 'field';
+      if (row === map.player.row && col === map.player.col) {
+        tile.classList.add('player');
+      }
       container.appendChild(tile);
     }
   }

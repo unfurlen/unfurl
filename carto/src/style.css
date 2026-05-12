@@ -25,3 +25,7 @@ body {
   font-size: 10px;
   text-transform: uppercase;
 }
+
+.tile.player {
+  border: 3px solid #e94560;
+}

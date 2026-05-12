@@ -23,4 +23,10 @@ describe('renderMap', () => {
       expect(tile.textContent).toBe('field');
     });
   });
+
+  it('marks player tile with player class', () => {
+    const map = new Map(3, 3, 1, 1);
+    const el = renderMap(map);
+    expect(el.querySelectorAll('.tile.player').length).toBe(1);
+  });
 });
