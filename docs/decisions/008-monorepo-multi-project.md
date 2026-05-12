@@ -12,7 +12,7 @@ The unfurl project was initially a single game (Noughts & Crosses). Adding a sec
 - Use a Vite multi-page build at the root level
 - Each project lives in its own directory (e.g., `oxo/`, `carto/`) with its own `index.html`, `src/`, and test files
 - Root `package.json` holds all shared dependencies
-- No code sharing between projects initially — each is independent
+- Zero code sharing between projects — each is fully independent. This is an intentional constraint to keep projects decoupled and avoid premature abstraction.
 - Root `index.html` serves as a landing page linking to each project
 - Root `vite.config.ts` configures the multi-page build with `build.rolldownOptions.input` entries for each project's `index.html`
 

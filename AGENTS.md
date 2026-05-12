@@ -16,15 +16,22 @@ Collection of games and experiences with URL-based state. Frontend only, no back
 - No backend calls, ever
 - Strict TDD - always follow red-green-refactor cycle
 - Lean thinking - slice everything as small as possible
-- Propose small changes, one file at a time
 - Every decision documented in `docs/decisions/`
-- Preview all changes before writing
 - Capture working conventions in this file
 - Separate pure logic from DOM bootstrap (index.ts)
 - Test files mirror source files they test
 - Event sourcing via URL hash - all game state derived from move sequence
 - Fixed dependency versions (no ^ ranges)
 - Keep context extremely curated - nothing unnecessary
+- Immutable domain models - Cell, Move constructed once, never mutated
+- Grid.applyMove returns a new Grid rather than mutating in place
+- Player defined as `const Player = { X: 'X', O: 'O' } as const; type Player = ...`
+- SIZE exported from grid.ts for use by other modules
+- URL hash format: `#0214` - each char is a cell index (0-8). X at even positions, O at odd
+- Navigation via precomputed URL strings: renderControls(backUrl, forwardUrl, onShare)
+- History state managed in url.ts: getCurrHistory, getFullHistory, getBackUrl, getForwardUrl
+- fullHistory resets when currHistory diverges (new move after going back = forward disabled)
+- Zero shared code between projects - each is self-contained
 
 ## Projects
 
