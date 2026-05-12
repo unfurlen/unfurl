@@ -20,7 +20,7 @@ function render() {
   const steps = path.length;
 
   const app = document.getElementById('app')!;
-  app.replaceChildren(renderResult(steps, completed), renderMap(map));
+  app.replaceChildren(renderResult(steps, map.stepLimit, completed), renderMap(map));
   app.appendChild(renderControls(
     backUrl,
     forwardUrl,

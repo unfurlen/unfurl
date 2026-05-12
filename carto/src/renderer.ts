@@ -24,7 +24,7 @@ export function renderMap(map: Map): HTMLElement {
 
       const dRow = Math.abs(row - map.player.row);
       const dCol = Math.abs(col - map.player.col);
-      if (dRow + dCol === 1 && map.tiles[row][col].biome !== Biome.Water && !map.isComplete()) {
+      if (dRow + dCol === 1 && map.tiles[row][col].biome !== Biome.Water && !map.isGameOver()) {
         let dir: Direction;
         if (row === map.player.row - 1) dir = Direction.N;
         else if (row === map.player.row + 1) dir = Direction.S;
@@ -78,11 +78,16 @@ export function renderControls(
   return container;
 }
 
-export function renderResult(steps: number, completed: boolean): HTMLElement {
+export function renderResult(steps: number, stepLimit: number, completed: boolean): HTMLElement {
   const el = document.createElement('div');
   el.className = 'result';
-  el.textContent = completed
-    ? `Steps: ${steps} — Map completed!`
-    : `Steps: ${steps}`;
+  const expired = steps >= stepLimit && !completed;
+  let message = `Steps: ${steps} / ${stepLimit}`;
+  if (completed) {
+    message += ' — Map completed!';
+  } else if (expired) {
+    message += ' — Expired!';
+  }
+  el.textContent = message;
   return el;
 }

@@ -52,7 +52,7 @@ export function parseMapUrl(hash: string): { map: Map; path: Direction[] } {
   if (!cleaned) throw new URLParseError(hash);
 
   const parts = cleaned.split(':');
-  if (parts.length < 2 || !parts[1]) throw new URLParseError(hash);
+  if (parts.length < 3 || !parts[1] || !parts[2]) throw new URLParseError(hash);
 
   const biomes = parseBiomes(parts[0]);
 
@@ -61,26 +61,26 @@ export function parseMapUrl(hash: string): { map: Map; path: Direction[] } {
   const startRow = parseNonNegativeInt(startParts[0]);
   const startCol = parseNonNegativeInt(startParts[1]);
 
-  const path = parts[2] ? parsePath(parts[2]) : [];
+  const stepLimit = Number(parts[2]);
+  if (!Number.isInteger(stepLimit) || stepLimit < 1) throw new URLParseError(hash);
 
-  return { map: new Map(startRow, startCol, biomes), path };
+  const path = parts[3] ? parsePath(parts[3]) : [];
+
+  return { map: new Map(startRow, startCol, biomes, stepLimit), path };
 }
 
 export function buildMapUrl(hash: string, direction: Direction): string {
   const cleaned = hash.replace(/^#/, '');
   const parts = cleaned.split(':');
-  const dims = parts[0];
-  const start = parts[1];
-  const currPath = parts.slice(2).join('') || '';
-  return `#${dims}:${start}:${currPath}${direction}`;
+  const base = parts.slice(0, 3).join(':');
+  const currPath = parts.slice(3).join('') || '';
+  return `#${base}:${currPath}${direction}`;
 }
 
 function getBase(hash: string): string {
   const cleaned = hash.replace(/^#/, '');
   const parts = cleaned.split(':');
-  const dims = parts[0];
-  const start = parts[1];
-  return `${dims}:${start}`;
+  return parts.slice(0, 3).join(':');
 }
 
 function isPrefix(shorter: Direction[], longer: Direction[]): boolean {
