@@ -1,6 +1,6 @@
 import { describe, it, expect } from 'vitest';
 import { Direction } from './map.ts';
-import { parseMapUrl, buildMapUrl, URLParseError } from './url.ts';
+import { parseMapUrl, buildMapUrl, getFullHistory, getBackUrl, getForwardUrl, URLParseError } from './url.ts';
 
 describe('parseMapUrl', () => {
   it('parses square map dimensions', () => {
@@ -98,5 +98,63 @@ describe('buildMapUrl', () => {
 
   it('appends direction to hash with trailing colon', () => {
     expect(buildMapUrl('#5x5:0,0:', Direction.W)).toBe('#5x5:0,0:W');
+  });
+});
+
+describe('getFullHistory', () => {
+  it('returns fullHistory when currHistory is a prefix', () => {
+    const full: Direction[] = [Direction.N, Direction.E, Direction.S];
+    const curr: Direction[] = [Direction.N, Direction.E];
+    expect(getFullHistory(full, curr)).toBe(full);
+  });
+
+  it('returns currHistory when divergent', () => {
+    const full: Direction[] = [Direction.N, Direction.E, Direction.S];
+    const curr: Direction[] = [Direction.N, Direction.W];
+    expect(getFullHistory(full, curr)).toEqual([Direction.N, Direction.W]);
+  });
+
+  it('returns currHistory when fullHistory is empty', () => {
+    const full: Direction[] = [];
+    const curr: Direction[] = [Direction.N];
+    expect(getFullHistory(full, curr)).toEqual([Direction.N]);
+  });
+});
+
+describe('getBackUrl', () => {
+  it('returns null when currHistory is empty', () => {
+    expect(getBackUrl('#3x3:1,1', [])).toBeNull();
+  });
+
+  it('removes last direction from path', () => {
+    expect(getBackUrl('#3x3:1,1', [Direction.N, Direction.E])).toBe('#3x3:1,1:N');
+  });
+
+  it('returns empty path after single move', () => {
+    expect(getBackUrl('#3x3:1,1', [Direction.N])).toBe('#3x3:1,1:');
+  });
+
+  it('handles hash without explicit start', () => {
+    expect(getBackUrl('#5x5', [Direction.N])).toBe('#5x5:0,0:');
+  });
+});
+
+describe('getForwardUrl', () => {
+  it('returns null when currHistory equals fullHistory', () => {
+    const full: Direction[] = [Direction.N, Direction.E];
+    const curr: Direction[] = [Direction.N, Direction.E];
+    expect(getForwardUrl('#3x3:1,1', curr, full)).toBeNull();
+  });
+
+  it('returns next direction from fullHistory', () => {
+    const full: Direction[] = [Direction.N, Direction.E, Direction.S];
+    const curr: Direction[] = [Direction.N, Direction.E];
+    expect(getForwardUrl('#3x3:1,1', curr, full)).toBe('#3x3:1,1:NES');
+  });
+
+  it('returns first direction when currHistory is empty', () => {
+    const full: Direction[] = [Direction.N];
+    const curr: Direction[] = [];
+    expect(getForwardUrl('#3x3:1,1', curr, full)).toBe('#3x3:1,1:N');
   });
 });

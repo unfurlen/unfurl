@@ -71,3 +71,30 @@ export function buildMapUrl(hash: string, direction: Direction): string {
   const currPath = parts.slice(2).join('') || '';
   return `#${dims}:${start}:${currPath}${direction}`;
 }
+
+function getBase(hash: string): string {
+  const cleaned = hash.replace(/^#/, '');
+  const parts = cleaned.split(':');
+  const dims = parts[0];
+  const start = parts[1] || '0,0';
+  return `${dims}:${start}`;
+}
+
+function isPrefix(shorter: Direction[], longer: Direction[]): boolean {
+  return shorter.every((val, i) => val === longer[i]);
+}
+
+export function getFullHistory(fullHistory: Direction[], path: Direction[]): Direction[] {
+  if (isPrefix(path, fullHistory)) return fullHistory;
+  return [...path];
+}
+
+export function getBackUrl(hash: string, path: Direction[]): string | null {
+  if (path.length === 0) return null;
+  return `#${getBase(hash)}:${path.slice(0, -1).join('')}`;
+}
+
+export function getForwardUrl(hash: string, path: Direction[], fullHistory: Direction[]): string | null {
+  if (path.length >= fullHistory.length) return null;
+  return `#${getBase(hash)}:${fullHistory.slice(0, path.length + 1).join('')}`;
+}

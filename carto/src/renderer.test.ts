@@ -1,6 +1,6 @@
-import { describe, it, expect } from 'vitest';
+import { describe, it, expect, vi } from 'vitest';
 import { Map, Direction } from './map.ts';
-import { renderMap } from './renderer.ts';
+import { renderMap, renderControls } from './renderer.ts';
 
 describe('renderMap', () => {
   it('renders correct number of tiles', () => {
@@ -100,5 +100,42 @@ describe('renderMap', () => {
       tiles[0].click();
       expect(location.hash).toBe('#3x3:1,1');
     });
+  });
+});
+
+describe('renderControls', () => {
+  it('renders back, forward, and share buttons', () => {
+    const el = renderControls('#0', '#01', vi.fn());
+    expect(el.querySelector('.back')).toBeTruthy();
+    expect(el.querySelector('.forward')).toBeTruthy();
+    expect(el.querySelector('.share')).toBeTruthy();
+  });
+
+  it('clicking back sets location.hash to backUrl', () => {
+    location.hash = '';
+    const el = renderControls('#0', null, vi.fn());
+    const back = el.querySelector('.back') as HTMLButtonElement;
+    back.click();
+    expect(location.hash).toBe('#0');
+  });
+
+  it('clicking forward sets location.hash to forwardUrl', () => {
+    location.hash = '';
+    const el = renderControls(null, '#01', vi.fn());
+    const forward = el.querySelector('.forward') as HTMLButtonElement;
+    forward.click();
+    expect(location.hash).toBe('#01');
+  });
+
+  it('disables back when backUrl is null', () => {
+    const el = renderControls(null, '#01', vi.fn());
+    const back = el.querySelector('.back') as HTMLButtonElement;
+    expect(back.disabled).toBe(true);
+  });
+
+  it('disables forward when forwardUrl is null', () => {
+    const el = renderControls('#0', null, vi.fn());
+    const forward = el.querySelector('.forward') as HTMLButtonElement;
+    expect(forward.disabled).toBe(true);
   });
 });

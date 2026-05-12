@@ -38,3 +38,38 @@ export function renderMap(map: Map): HTMLElement {
 
   return container;
 }
+
+export function renderControls(
+  backUrl: string | null,
+  forwardUrl: string | null,
+  onShare: () => void
+): HTMLElement {
+  const container = document.createElement('div');
+  container.className = 'controls';
+
+  const back = document.createElement('button');
+  back.className = 'back';
+  back.innerHTML = '◀';
+  if (backUrl !== null) {
+    back.addEventListener('click', () => { location.hash = backUrl; });
+  } else {
+    back.disabled = true;
+  }
+
+  const forward = document.createElement('button');
+  forward.className = 'forward';
+  forward.innerHTML = '▶';
+  if (forwardUrl !== null) {
+    forward.addEventListener('click', () => { location.hash = forwardUrl; });
+  } else {
+    forward.disabled = true;
+  }
+
+  const share = document.createElement('button');
+  share.className = 'share';
+  share.innerHTML = '🔗';
+  share.addEventListener('click', onShare);
+
+  container.append(back, share, forward);
+  return container;
+}

@@ -1,14 +1,35 @@
 import './style.css';
-import { renderMap } from './renderer.ts';
-import { parseMapUrl } from './url.ts';
+import { renderMap, renderControls } from './renderer.ts';
+import { parseMapUrl, getFullHistory, getBackUrl, getForwardUrl } from './url.ts';
+import { Direction } from './map.ts';
+
+let fullHistory: Direction[] = [];
 
 function render() {
   const { map, path } = parseMapUrl(location.hash);
   for (const dir of path) {
     map.applyMove(dir);
   }
+
+  fullHistory = getFullHistory(fullHistory, path);
+
+  const backUrl = getBackUrl(location.hash, path);
+  const forwardUrl = getForwardUrl(location.hash, path, fullHistory);
+
   const app = document.getElementById('app')!;
   app.replaceChildren(renderMap(map));
+  app.appendChild(renderControls(
+    backUrl,
+    forwardUrl,
+    async () => {
+      const url = window.location.href;
+      if (navigator.share) {
+        await navigator.share({ url });
+      } else {
+        await navigator.clipboard.writeText(url);
+      }
+    }
+  ));
 }
 
 render();
