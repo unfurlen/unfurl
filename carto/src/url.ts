@@ -15,6 +15,14 @@ function parseDimension(input: string): number {
   return n;
 }
 
+function parseNonNegativeInt(input: string): number {
+  const n = Number(input);
+  if (!Number.isInteger(n) || n < 0) {
+    throw new URLParseError(input);
+  }
+  return n;
+}
+
 export function parseMapUrl(hash: string): Map {
   const cleaned = hash.replace(/^#/, '');
   if (!cleaned) throw new URLParseError(hash);
@@ -28,8 +36,16 @@ export function parseMapUrl(hash: string): Map {
   const hStr = dimStr.slice(xIndex + 1);
   if (!wStr || !hStr) throw new URLParseError(hash);
 
-  const width = parseDimension(wStr, 'width');
-  const height = parseDimension(hStr, 'height');
+  const width = parseDimension(wStr);
+  const height = parseDimension(hStr);
 
-  return new Map(width, height, 0, 0);
+  let startRow = 0;
+  let startCol = 0;
+  if (parts[1]) {
+    const [sr, sc] = parts[1].split(',');
+    startRow = parseNonNegativeInt(sr);
+    startCol = parseNonNegativeInt(sc);
+  }
+
+  return new Map(width, height, startRow, startCol);
 }

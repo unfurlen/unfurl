@@ -14,6 +14,18 @@ describe('parseMapUrl', () => {
     expect(map.height).toBe(6);
   });
 
+  it('parses start position', () => {
+    const map = parseMapUrl('#5x5:1,2');
+    expect(map.player.row).toBe(1);
+    expect(map.player.col).toBe(2);
+  });
+
+  it('defaults to (0,0) when no start given', () => {
+    const map = parseMapUrl('#5x5');
+    expect(map.player.row).toBe(0);
+    expect(map.player.col).toBe(0);
+  });
+
   it('throws for empty hash', () => {
     expect(() => parseMapUrl('')).toThrow(URLParseError);
   });
@@ -29,7 +41,18 @@ describe('parseMapUrl', () => {
     ['#x5'],
     ['#5x'],
     ['#5'],
-  ])('throws for invalid URL: %s', (hash) => {
+  ])('throws for invalid dimensions: %s', (hash) => {
+    expect(() => parseMapUrl(hash)).toThrow(URLParseError);
+  });
+
+  it.each([
+    ['#5x5:1'],
+    ['#5x5:a,b'],
+    ['#5x5:-1,0'],
+    ['#5x5:0,-1'],
+    ['#5x5:1.5,2'],
+    ['#5x5:1,2.5'],
+  ])('throws for invalid start: %s', (hash) => {
     expect(() => parseMapUrl(hash)).toThrow(URLParseError);
   });
 });
