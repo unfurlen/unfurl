@@ -34,3 +34,30 @@ body {
   background: #4a4a6a;
   color: #ccc;
 }
+
+.result {
+  color: #fff;
+  font-size: 18px;
+  text-align: center;
+  margin-bottom: 12px;
+}
+
+.controls {
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+  margin-top: 12px;
+}
+
+.controls button {
+  background: #2d2d44;
+  color: #fff;
+  border: 1px solid #4a4a6a;
+  padding: 8px 16px;
+  cursor: pointer;
+}
+
+.controls button:disabled {
+  opacity: 0.4;
+  cursor: default;
+}

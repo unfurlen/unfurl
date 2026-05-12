@@ -1,6 +1,6 @@
 import { describe, it, expect, vi } from 'vitest';
 import { Map, Direction } from './map.ts';
-import { renderMap, renderControls } from './renderer.ts';
+import { renderMap, renderControls, renderResult } from './renderer.ts';
 
 describe('renderMap', () => {
   it('renders correct number of tiles', () => {
@@ -137,5 +137,22 @@ describe('renderControls', () => {
     const el = renderControls('#0', null, vi.fn());
     const forward = el.querySelector('.forward') as HTMLButtonElement;
     expect(forward.disabled).toBe(true);
+  });
+});
+
+describe('renderResult', () => {
+  it('shows step count when not completed', () => {
+    const el = renderResult(3, false);
+    expect(el.textContent).toBe('Steps: 3');
+  });
+
+  it('shows step count and completion message when completed', () => {
+    const el = renderResult(7, true);
+    expect(el.textContent).toBe('Steps: 7 — Map completed!');
+  });
+
+  it('shows correct class', () => {
+    const el = renderResult(0, false);
+    expect(el.classList.contains('result')).toBe(true);
   });
 });

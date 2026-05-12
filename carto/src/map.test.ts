@@ -82,3 +82,24 @@ describe('applyMove', () => {
     expect(() => map.applyMove(dir)).toThrow(InvalidPositionError);
   });
 });
+
+describe('isComplete', () => {
+  it('returns false when only start tile is visited', () => {
+    const map = new Map(2, 2, 0, 0);
+    expect(map.isComplete()).toBe(false);
+  });
+
+  it('returns true when all tiles are visited', () => {
+    const map = new Map(2, 2, 0, 0);
+    map.applyMove(Direction.E);
+    map.applyMove(Direction.S);
+    map.applyMove(Direction.W);
+    expect(map.isComplete()).toBe(true);
+  });
+
+  it('returns false when partially visited', () => {
+    const map = new Map(2, 2, 0, 0);
+    map.applyMove(Direction.E);
+    expect(map.isComplete()).toBe(false);
+  });
+});

@@ -1,5 +1,5 @@
 import './style.css';
-import { renderMap, renderControls } from './renderer.ts';
+import { renderMap, renderControls, renderResult } from './renderer.ts';
 import { parseMapUrl, getFullHistory, getBackUrl, getForwardUrl } from './url.ts';
 import { Direction } from './map.ts';
 
@@ -16,8 +16,11 @@ function render() {
   const backUrl = getBackUrl(location.hash, path);
   const forwardUrl = getForwardUrl(location.hash, path, fullHistory);
 
+  const completed = map.isComplete();
+  const steps = path.length;
+
   const app = document.getElementById('app')!;
-  app.replaceChildren(renderMap(map));
+  app.replaceChildren(renderResult(steps, completed), renderMap(map));
   app.appendChild(renderControls(
     backUrl,
     forwardUrl,

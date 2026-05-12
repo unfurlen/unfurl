@@ -70,4 +70,8 @@ export class Map {
     this.tiles[newRow][newCol] = this.tiles[newRow][newCol].visit();
     this.player = new Player(newRow, newCol);
   }
+
+  isComplete(): boolean {
+    return this.tiles.every(row => row.every(tile => tile.visited));
+  }
 }

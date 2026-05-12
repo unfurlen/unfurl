@@ -73,3 +73,12 @@ export function renderControls(
   container.append(back, share, forward);
   return container;
 }
+
+export function renderResult(steps: number, completed: boolean): HTMLElement {
+  const el = document.createElement('div');
+  el.className = 'result';
+  el.textContent = completed
+    ? `Steps: ${steps} — Map completed!`
+    : `Steps: ${steps}`;
+  return el;
+}
