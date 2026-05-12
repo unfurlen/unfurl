@@ -5,13 +5,12 @@ import { buildMapUrl } from './url.ts';
 export function renderMap(map: Map): HTMLElement {
   const container = document.createElement('div');
   container.className = 'grid';
-  container.style.gridTemplateColumns = `repeat(${map.width}, 1fr)`;
+  container.style.gridTemplateColumns = `repeat(${map.width}, 60px)`;
 
   for (let row = 0; row < map.height; row++) {
     for (let col = 0; col < map.width; col++) {
       const tileEl = document.createElement('div');
       tileEl.className = 'tile';
-      tileEl.textContent = map.tiles[row][col].biome;
       if (map.tiles[row][col].biome === Biome.Water) {
         tileEl.classList.add('water');
       }

@@ -20,21 +20,21 @@ describe('renderMap', () => {
     expect(el.querySelectorAll('.tile').length).toBe(24);
   });
 
-  it('each tile shows biome text', () => {
+  it('renders field tiles without water class', () => {
     const map = new Map(0, 0, fieldGrid(2, 2), 4);
     const el = renderMap(map);
     const tiles = el.querySelectorAll('.tile');
     tiles.forEach(tile => {
-      expect(tile.textContent).toBe('field');
+      expect(tile.classList.contains('water')).toBe(false);
     });
   });
 
-  it('shows water text for water tile', () => {
+  it('marks water tile with water class', () => {
     const map = new Map(0, 0, [[Biome.Field, Biome.Water]], 4);
     const el = renderMap(map);
     const tiles = el.querySelectorAll('.tile');
-    expect(tiles[0].textContent).toBe('field');
-    expect(tiles[1].textContent).toBe('water');
+    expect(tiles[0].classList.contains('water')).toBe(false);
+    expect(tiles[1].classList.contains('water')).toBe(true);
   });
 
   it('marks player tile with player class', () => {
