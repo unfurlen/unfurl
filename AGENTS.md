@@ -24,7 +24,7 @@ Collection of games and experiences with URL-based state. Frontend only, no back
 - Fixed dependency versions (no ^ ranges)
 - Keep context extremely curated - nothing unnecessary
 - Immutable domain models - Cell, Move constructed once, never mutated
-- Grid.applyMove returns a new Grid rather than mutating in place
+- Grid.applyMove mutates cells in place (grid is rebuilt from scratch each render cycle via event sourcing)
 - Player defined as `const Player = { X: 'X', O: 'O' } as const; type Player = ...`
 - SIZE exported from grid.ts for use by other modules
 - URL hash format: `#0214` - each char is a cell index (0-8). X at even positions, O at odd
