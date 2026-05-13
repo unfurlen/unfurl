@@ -8,6 +8,7 @@ let fullHistory: Direction[] = [];
 function render() {
   const { map, path } = parseMapUrl(location.hash);
   for (const dir of path) {
+    if (map.isGameOver()) break;
     map.applyMove(dir);
   }
 

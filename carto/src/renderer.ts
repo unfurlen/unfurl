@@ -91,8 +91,7 @@ export function renderControls(
 export function renderResult(steps: number, supplies: number): HTMLElement {
   const el = document.createElement('div');
   el.className = 'result';
-  const message = `👣 ${steps}  🎒 ${supplies}`;
-  el.textContent = message;
+  el.innerHTML = `👣 <span class="num">${steps}</span>  🎒 <span class="num">${supplies}</span>`;
   return el;
 }
 
