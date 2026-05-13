@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import { Map, Direction, InvalidPositionError, InvalidMapSizeError, InvalidSuppliesError, InvalidWeatherCycleError } from './map.ts';
+import { Map, Direction, InvalidPositionError, InvalidMapSizeError, InvalidSuppliesError } from './map.ts';
 import { Biome } from './biome.ts';
 import { Weather } from './weather.ts';
 
