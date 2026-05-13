@@ -130,6 +130,13 @@ describe('renderMap', () => {
       expect(location.hash).toBe('#3x3:1,1');
     });
 
+    it('marks player on frozen water', () => {
+      const map = new Map(0, 1, [[Biome.Water, Biome.Field, Biome.Field]], 9, [Weather.Snow]);
+      map.applyMove(Direction.W);
+      const el = renderMap(map);
+      expect(el.querySelectorAll('.tile.player').length).toBe(1);
+    });
+
     it('does not click into water', () => {
       location.hash = '#F,W:0,0';
       const map = new Map(0, 0, [[Biome.Field, Biome.Water]], 4, [Weather.Clear]);
