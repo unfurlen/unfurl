@@ -65,14 +65,24 @@ describe('renderMap', () => {
     const el = renderMap(map);
     const tiles = el.querySelectorAll('.tile');
     expect(tiles[0].classList.contains('frozen')).toBe(true);
+    expect(tiles[0].classList.contains('freezing')).toBe(false);
     expect(tiles[1].classList.contains('frozen')).toBe(false);
   });
 
-  it('does not add frozen class during clear', () => {
+  it('adds freezing class when next step is snow', () => {
+    const map = new Map(0, 1, [[Biome.Water, Biome.Field]], 9, [Weather.Clear, Weather.Snow]);
+    const el = renderMap(map);
+    const tiles = el.querySelectorAll('.tile');
+    expect(tiles[0].classList.contains('freezing')).toBe(true);
+    expect(tiles[0].classList.contains('frozen')).toBe(false);
+  });
+
+  it('does not add frozen or freezing class during clear with no snow forecast', () => {
     const map = new Map(0, 1, [[Biome.Water, Biome.Field]], 9, [Weather.Clear]);
     const el = renderMap(map);
     const tiles = el.querySelectorAll('.tile');
     expect(tiles[0].classList.contains('frozen')).toBe(false);
+    expect(tiles[0].classList.contains('freezing')).toBe(false);
   });
 
   describe('tile clicks', () => {

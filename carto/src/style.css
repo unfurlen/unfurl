@@ -31,11 +31,12 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
+  box-sizing: border-box;
 }
 
 .tile.player {
   background: #d4a017;
-  box-shadow: inset 0 0 0 3px #b8860b;
+  border: 3px solid #b8860b;
 }
 
 .tile.visited {
@@ -44,22 +45,26 @@ body {
 
 .tile.water {
   background: #5b8db8;
-  box-shadow: inset 0 0 12px #3a6a95;
 }
 
 .tile.frozen {
   background: #a8c8e8;
-  box-shadow: inset 0 0 8px #7ab0d8;
 }
 
 .tile.player.water {
   background: #5b8db8;
-  box-shadow: inset 0 0 12px #3a6a95, inset 0 0 0 3px #b8860b;
 }
 
 .tile.player.frozen {
   background: #a8c8e8;
-  box-shadow: inset 0 0 8px #7ab0d8, inset 0 0 0 3px #b8860b;
+}
+
+.tile.freezing {
+  background: #82abd0;
+}
+
+.tile.player.freezing {
+  background: #82abd0;
 }
 
 .result {
@@ -79,7 +84,6 @@ body {
 .weather-icon {
   width: 24px;
   height: 24px;
-  background: #c4b08a;
   border: 2px solid transparent;
   display: flex;
   align-items: center;
@@ -89,9 +93,16 @@ body {
   color: #3e2c1a;
 }
 
+.weather-icon.weather-clear {
+  background: #7a5c10;
+}
+
+.weather-icon.weather-snow {
+  background: #3a6a95;
+}
+
 .weather-icon.current {
-  border-color: #d4a017;
-  background: #e8d48b;
+  box-shadow: 0 0 0 4px #d4a017;
 }
 
 .controls {

@@ -14,8 +14,11 @@ export function renderMap(map: Map): HTMLElement {
       tileEl.className = 'tile';
       if (map.tiles[row][col].biome === Biome.Water) {
         tileEl.classList.add('water');
+        const nextWeather = map.weatherCycle[(map.stepCount + 1) % map.weatherCycle.length];
         if (map.getWeather() === Weather.Snow) {
           tileEl.classList.add('frozen');
+        } else if (nextWeather === Weather.Snow) {
+          tileEl.classList.add('freezing');
         }
       }
       if (row === map.player.row && col === map.player.col) {
@@ -103,7 +106,8 @@ export function renderWeather(cycle: string[], currentStep: number): HTMLElement
   cycle.forEach((weather, i) => {
     const el = document.createElement('span');
     el.className = 'weather-icon';
-    el.textContent = weather;
+    el.classList.add(weather === Weather.Clear ? 'weather-clear' : 'weather-snow');
+    el.textContent = weather === Weather.Clear ? '☀️' : '❄️';
     if (i === currentStep % cycle.length) {
       el.classList.add('current');
     }
