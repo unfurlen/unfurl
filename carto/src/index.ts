@@ -16,11 +16,10 @@ function render() {
   const backUrl = getBackUrl(location.hash, path);
   const forwardUrl = getForwardUrl(location.hash, path, fullHistory);
 
-  const completed = map.isComplete();
   const steps = path.length;
 
   const app = document.getElementById('app')!;
-  app.replaceChildren(renderWeather(map.weatherCycle, path.length), renderResult(steps, map.supplies, completed), renderMap(map));
+  app.replaceChildren(renderWeather(map.weatherCycle, path.length), renderResult(steps, map.supplies), renderMap(map));
   app.appendChild(renderControls(
     backUrl,
     forwardUrl,

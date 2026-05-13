@@ -75,6 +75,24 @@ describe('renderMap', () => {
     expect(tiles[0].classList.contains('frozen')).toBe(false);
   });
 
+  it('adds complete class to grid when map is complete', () => {
+    const map = new Map(0, 0, fieldGrid(2, 2), 4, [Weather.Clear]);
+    map.applyMove(Direction.E);
+    map.applyMove(Direction.S);
+    map.applyMove(Direction.W);
+    const el = renderMap(map);
+    expect(el.classList.contains('complete')).toBe(true);
+    expect(el.classList.contains('expired')).toBe(false);
+  });
+
+  it('adds expired class to grid when out of supplies', () => {
+    const map = new Map(0, 0, fieldGrid(2, 2), 1, [Weather.Clear]);
+    map.applyMove(Direction.E);
+    const el = renderMap(map);
+    expect(el.classList.contains('expired')).toBe(true);
+    expect(el.classList.contains('complete')).toBe(false);
+  });
+
   describe('tile clicks', () => {
     it('clicking north tile updates hash', () => {
       location.hash = '#3x3:1,1';
@@ -248,28 +266,13 @@ describe('renderControls', () => {
 });
 
 describe('renderResult', () => {
-  it('shows step count when not completed and not expired', () => {
-    const el = renderResult(3, 9, false);
-    expect(el.textContent).toBe('Steps: 3, Supplies: 9');
-  });
-
-  it('shows step count and completion message when completed', () => {
-    const el = renderResult(7, 2, true);
-    expect(el.textContent).toBe('Steps: 7, Supplies: 2 — Map completed!');
-  });
-
-  it('shows out of supplies message when out of supplies', () => {
-    const el = renderResult(5, 0, false);
-    expect(el.textContent).toBe('Steps: 5, Supplies: 0 — Out of supplies!');
-  });
-
-  it('shows completed when both completed and at limit', () => {
-    const el = renderResult(9, 0, true);
-    expect(el.textContent).toBe('Steps: 9, Supplies: 0 — Map completed!');
+  it('shows step count and supplies', () => {
+    const el = renderResult(3, 9);
+    expect(el.textContent).toBe('👣 3  🎒 9');
   });
 
   it('shows correct class', () => {
-    const el = renderResult(0, 9, false);
+    const el = renderResult(0, 9);
     expect(el.classList.contains('result')).toBe(true);
   });
 });

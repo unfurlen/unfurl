@@ -6,6 +6,11 @@ import { buildMapUrl } from './url.ts';
 export function renderMap(map: Map): HTMLElement {
   const container = document.createElement('div');
   container.className = 'grid';
+  if (map.isComplete()) {
+    container.classList.add('complete');
+  } else if (map.supplies <= 0) {
+    container.classList.add('expired');
+  }
   container.style.gridTemplateColumns = `repeat(${map.width}, 60px)`;
 
   for (let row = 0; row < map.height; row++) {
@@ -83,16 +88,10 @@ export function renderControls(
   return container;
 }
 
-export function renderResult(steps: number, supplies: number, completed: boolean): HTMLElement {
+export function renderResult(steps: number, supplies: number): HTMLElement {
   const el = document.createElement('div');
   el.className = 'result';
-  const outOfSupplies = supplies <= 0 && !completed;
-  let message = `Steps: ${steps}, Supplies: ${supplies}`;
-  if (completed) {
-    message += ' — Map completed!';
-  } else if (outOfSupplies) {
-    message += ' — Out of supplies!';
-  }
+  const message = `👣 ${steps}  🎒 ${supplies}`;
   el.textContent = message;
   return el;
 }
