@@ -1,5 +1,6 @@
 import { Map, Direction } from './map.ts';
 import { Biome } from './biome.ts';
+import { Weather } from './weather.ts';
 
 export class URLParseError extends Error {
   constructor(input: string) {
@@ -47,12 +48,22 @@ function parsePath(input: string): Direction[] {
   return input.split('') as Direction[];
 }
 
+const VALID_WEATHERS = new Set<string>([Weather.Clear, Weather.Snow]);
+type _W = (typeof Weather)[keyof typeof Weather];
+
+function parseWeatherCycle(input: string): _W[] {
+  for (const ch of input) {
+    if (!VALID_WEATHERS.has(ch)) throw new URLParseError(input);
+  }
+  return input.split('') as _W[];
+}
+
 export function parseMapUrl(hash: string): { map: Map; path: Direction[] } {
   const cleaned = hash.replace(/^#/, '');
   if (!cleaned) throw new URLParseError(hash);
 
   const parts = cleaned.split(':');
-  if (parts.length < 3 || !parts[1] || !parts[2]) throw new URLParseError(hash);
+  if (parts.length < 4 || !parts[1] || !parts[2] || !parts[3]) throw new URLParseError(hash);
 
   const biomes = parseBiomes(parts[0]);
 
@@ -64,23 +75,24 @@ export function parseMapUrl(hash: string): { map: Map; path: Direction[] } {
   const supplies = Number(parts[2]);
   if (!Number.isInteger(supplies) || supplies < 1) throw new URLParseError(hash);
 
-  const path = parts[3] ? parsePath(parts[3]) : [];
+  const cycle = parseWeatherCycle(parts[3]);
+  const path = parts[4] ? parsePath(parts[4]) : [];
 
-  return { map: new Map(startRow, startCol, biomes, supplies), path };
+  return { map: new Map(startRow, startCol, biomes, supplies, cycle), path };
 }
 
 export function buildMapUrl(hash: string, direction: Direction): string {
   const cleaned = hash.replace(/^#/, '');
   const parts = cleaned.split(':');
-  const base = parts.slice(0, 3).join(':');
-  const currPath = parts.slice(3).join('') || '';
+  const base = parts.slice(0, 4).join(':');
+  const currPath = parts.slice(4).join('') || '';
   return `#${base}:${currPath}${direction}`;
 }
 
 function getBase(hash: string): string {
   const cleaned = hash.replace(/^#/, '');
   const parts = cleaned.split(':');
-  return parts.slice(0, 3).join(':');
+  return parts.slice(0, 4).join(':');
 }
 
 function isPrefix(shorter: Direction[], longer: Direction[]): boolean {

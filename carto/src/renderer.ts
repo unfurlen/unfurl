@@ -1,5 +1,6 @@
 import { Map, Direction } from './map.ts';
 import { Biome } from './biome.ts';
+import { Weather } from './weather.ts';
 import { buildMapUrl } from './url.ts';
 
 export function renderMap(map: Map): HTMLElement {
@@ -13,6 +14,9 @@ export function renderMap(map: Map): HTMLElement {
       tileEl.className = 'tile';
       if (map.tiles[row][col].biome === Biome.Water) {
         tileEl.classList.add('water');
+        if (map.getWeather() === Weather.Snow) {
+          tileEl.classList.add('frozen');
+        }
       }
       if (row === map.player.row && col === map.player.col) {
         tileEl.classList.add('player');
@@ -23,7 +27,8 @@ export function renderMap(map: Map): HTMLElement {
 
       const dRow = Math.abs(row - map.player.row);
       const dCol = Math.abs(col - map.player.col);
-      if (dRow + dCol === 1 && map.tiles[row][col].biome !== Biome.Water && !map.isGameOver()) {
+      const isTraversable = map.tiles[row][col].biome !== Biome.Water || map.getWeather() === Weather.Snow;
+      if (dRow + dCol === 1 && isTraversable && !map.isGameOver()) {
         let dir: Direction;
         if (row === map.player.row - 1) dir = Direction.N;
         else if (row === map.player.row + 1) dir = Direction.S;
@@ -89,4 +94,19 @@ export function renderResult(steps: number, supplies: number, completed: boolean
   }
   el.textContent = message;
   return el;
+}
+
+export function renderWeather(cycle: string[], currentStep: number): HTMLElement {
+  const container = document.createElement('div');
+  container.className = 'weather';
+  cycle.forEach((weather, i) => {
+    const el = document.createElement('span');
+    el.className = 'weather-icon';
+    el.textContent = weather;
+    if (i === currentStep % cycle.length) {
+      el.classList.add('current');
+    }
+    container.appendChild(el);
+  });
+  return container;
 }

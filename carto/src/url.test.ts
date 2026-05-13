@@ -1,11 +1,12 @@
 import { describe, it, expect } from 'vitest';
 import { Direction } from './map.ts';
 import { Biome } from './biome.ts';
+import { Weather } from './weather.ts';
 import { parseMapUrl, buildMapUrl, getFullHistory, getBackUrl, getForwardUrl, URLParseError } from './url.ts';
 
 describe('parseMapUrl', () => {
   it('parses biome grid', () => {
-    const { map } = parseMapUrl('#FFF,FFF,FWF:1,1:9');
+    const { map } = parseMapUrl('#FFF,FFF,FWF:1,1:9:C');
     expect(map.width).toBe(3);
     expect(map.height).toBe(3);
     expect(map.getTile(2, 1).biome).toBe(Biome.Water);
@@ -13,14 +14,33 @@ describe('parseMapUrl', () => {
   });
 
   it('places player at start position', () => {
-    const { map } = parseMapUrl('#FFF,FFF,FFF:1,2:9');
+    const { map } = parseMapUrl('#FFF,FFF,FFF:1,2:9:C');
     expect(map.player.row).toBe(1);
     expect(map.player.col).toBe(2);
   });
 
   it('parses step limit', () => {
-    const { map } = parseMapUrl('#FFF,FFF,FFF:0,0:7');
+    const { map } = parseMapUrl('#FFF,FFF,FFF:0,0:7:C');
     expect(map.supplies).toBe(7);
+    expect(map.weatherCycle).toEqual([Weather.Clear]);
+  });
+
+  it('parses weather cycle', () => {
+    const { map } = parseMapUrl('#FFF,FFF,FFF:0,0:7:C');
+    expect(map.weatherCycle).toEqual([Weather.Clear]);
+  });
+
+  it('parses alternating weather cycle', () => {
+    const { map } = parseMapUrl('#FFF,FFF,FFF:0,0:7:CS');
+    expect(map.weatherCycle).toEqual([Weather.Clear, Weather.Snow]);
+  });
+
+  it.each([
+    '#FFF,FFF,FFF:0,0:9:X',
+    '#FFF,FFF,FFF:0,0:9:NeS',
+    '#FFF,FFF,FFF:0,0:9:c',
+  ])('throws for invalid weather char: %s', (hash) => {
+    expect(() => parseMapUrl(hash)).toThrow(URLParseError);
   });
 
   it('throws for empty hash', () => {
@@ -32,14 +52,14 @@ describe('parseMapUrl', () => {
   });
 
   it.each([
-    '#FFF,FFF,FFX:0,0:9',
-    '#FFF,FFF,FFx:0,0:9',
+    '#FFF,FFF,FFX:0,0:9:C',
+    '#FFF,FFF,FFx:0,0:9:C',
   ])('throws for invalid biome char: %s', (hash) => {
     expect(() => parseMapUrl(hash)).toThrow(URLParseError);
   });
 
   it('throws for jagged biome rows', () => {
-    expect(() => parseMapUrl('#FFF,FF:0,0:9')).toThrow(URLParseError);
+    expect(() => parseMapUrl('#FFF,FF:0,0:9:C')).toThrow(URLParseError);
   });
 
   it('throws when no start position', () => {
@@ -61,24 +81,24 @@ describe('parseMapUrl', () => {
 
 describe('parseMapUrl path', () => {
   it('parses path from URL', () => {
-    const { path } = parseMapUrl('#FFF,FFF,FFF:0,0:9:NESE');
+    const { path } = parseMapUrl('#FFF,FFF,FFF:0,0:9:C:NESE');
     expect(path).toEqual([Direction.N, Direction.E, Direction.S, Direction.E]);
   });
 
   it('defaults to empty path when no path segment', () => {
-    const { path } = parseMapUrl('#FFF,FFF,FFF:0,0:9');
+    const { path } = parseMapUrl('#FFF,FFF,FFF:0,0:9:C');
     expect(path).toEqual([]);
   });
 
   it('defaults to empty path when path segment is empty', () => {
-    const { path } = parseMapUrl('#FFF,FFF,FFF:0,0:9:');
+    const { path } = parseMapUrl('#FFF,FFF,FFF:0,0:9:C:');
     expect(path).toEqual([]);
   });
 
   it.each([
-    '#FFF,FFF,FFF:0,0:9:X',
-    '#FFF,FFF,FFF:0,0:9:NE1W',
-    '#FFF,FFF,FFF:0,0:9:nesw',
+    '#FFF,FFF,FFF:0,0:9:C:X',
+    '#FFF,FFF,FFF:0,0:9:C:NE1W',
+    '#FFF,FFF,FFF:0,0:9:C:nesw',
   ])('throws for invalid char in path: %s', (hash) => {
     expect(() => parseMapUrl(hash)).toThrow(URLParseError);
   });
@@ -86,15 +106,15 @@ describe('parseMapUrl path', () => {
 
 describe('buildMapUrl', () => {
   it('appends direction to hash with start and limit but no path', () => {
-    expect(buildMapUrl('#FFF,FFF,FFF:0,0:9', Direction.N)).toBe('#FFF,FFF,FFF:0,0:9:N');
+    expect(buildMapUrl('#FFF,FFF,FFF:0,0:9:C', Direction.N)).toBe('#FFF,FFF,FFF:0,0:9:C:N');
   });
 
   it('appends direction to existing path', () => {
-    expect(buildMapUrl('#FFF,FFF,FFF:0,0:9:NE', Direction.S)).toBe('#FFF,FFF,FFF:0,0:9:NES');
+    expect(buildMapUrl('#FFF,FFF,FFF:0,0:9:C:NE', Direction.S)).toBe('#FFF,FFF,FFF:0,0:9:C:NES');
   });
 
   it('appends direction to hash with trailing colon', () => {
-    expect(buildMapUrl('#FFF,FFF,FFF:0,0:9:', Direction.W)).toBe('#FFF,FFF,FFF:0,0:9:W');
+    expect(buildMapUrl('#FFF,FFF,FFF:0,0:9:C:', Direction.W)).toBe('#FFF,FFF,FFF:0,0:9:C:W');
   });
 });
 

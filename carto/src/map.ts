@@ -1,6 +1,8 @@
 import { Tile } from './tile.ts';
 import { Biome } from './biome.ts';
 import { Player } from './player.ts';
+import { Weather } from './weather.ts';
+type WeatherType = (typeof Weather)[keyof typeof Weather];
 
 export const Direction = { N: 'N', S: 'S', E: 'E', W: 'W' } as const;
 export type Direction = (typeof Direction)[keyof typeof Direction];
@@ -33,18 +35,28 @@ export class InvalidSuppliesError extends Error {
   }
 }
 
+export class InvalidWeatherCycleError extends Error {
+  constructor() {
+    super('Invalid weather cycle');
+    this.name = 'InvalidWeatherCycleError';
+  }
+}
+
 export class Map {
   readonly tiles: Tile[][];
   player: Player;
   readonly width: number;
   readonly height: number;
   supplies: number;
+  readonly weatherCycle: WeatherType[];
+  stepCount: number = 0;
 
   constructor(
     startRow: number,
     startCol: number,
     biomes: Biome[][],
     supplies: number,
+    weatherCycle: WeatherType[],
   ) {
     this.height = biomes.length;
     if (this.height === 0) throw new InvalidMapSizeError(0, 0);
@@ -67,6 +79,12 @@ export class Map {
     if (!Number.isInteger(supplies) || supplies < 1) {
       throw new InvalidSuppliesError(supplies);
     }
+
+    if (weatherCycle.length === 0) {
+      throw new InvalidWeatherCycleError();
+    }
+    this.weatherCycle = weatherCycle;
+
     this.tiles = Array.from({ length: this.height }, (_, row) =>
       Array.from({ length: this.width }, (_, col) => new Tile(biomes[row][col]))
     );
@@ -90,13 +108,19 @@ export class Map {
       throw new InvalidPositionError(newRow, newCol);
     }
 
-    if (this.tiles[newRow][newCol].biome === Biome.Water) {
+    const canTraverseWater = this.getWeather() === Weather.Snow;
+    if (this.tiles[newRow][newCol].biome === Biome.Water && !canTraverseWater) {
       throw new InvalidPositionError(newRow, newCol);
     }
 
     this.tiles[newRow][newCol] = this.tiles[newRow][newCol].visit();
     this.player = new Player(newRow, newCol);
     this.supplies--;
+    this.stepCount++;
+  }
+
+  getWeather(): WeatherType {
+    return this.weatherCycle[this.stepCount % this.weatherCycle.length];
   }
 
   isComplete(): boolean {

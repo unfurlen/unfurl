@@ -1,5 +1,5 @@
 import './style.css';
-import { renderMap, renderControls, renderResult } from './renderer.ts';
+import { renderMap, renderControls, renderResult, renderWeather } from './renderer.ts';
 import { parseMapUrl, getFullHistory, getBackUrl, getForwardUrl } from './url.ts';
 import { Direction } from './map.ts';
 
@@ -20,7 +20,7 @@ function render() {
   const steps = path.length;
 
   const app = document.getElementById('app')!;
-  app.replaceChildren(renderResult(steps, map.supplies, completed), renderMap(map));
+  app.replaceChildren(renderWeather(map.weatherCycle, path.length), renderResult(steps, map.supplies, completed), renderMap(map));
   app.appendChild(renderControls(
     backUrl,
     forwardUrl,
