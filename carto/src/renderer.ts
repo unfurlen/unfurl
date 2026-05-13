@@ -27,7 +27,8 @@ export function renderMap(map: Map): HTMLElement {
 
       const dRow = Math.abs(row - map.player.row);
       const dCol = Math.abs(col - map.player.col);
-      const isTraversable = map.tiles[row][col].biome !== Biome.Water || map.getWeather() === Weather.Snow;
+      const nextWeather = map.weatherCycle[(map.stepCount + 1) % map.weatherCycle.length];
+      const isTraversable = map.tiles[row][col].biome !== Biome.Water || nextWeather === Weather.Snow;
       if (dRow + dCol === 1 && isTraversable && !map.isGameOver()) {
         let dir: Direction;
         if (row === map.player.row - 1) dir = Direction.N;

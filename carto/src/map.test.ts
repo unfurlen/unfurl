@@ -181,4 +181,10 @@ describe('applyMove with weather', () => {
     const map = new Map(0, 0, biomes, 9, [Weather.Clear]);
     expect(() => map.applyMove(Direction.E)).toThrow(InvalidPositionError);
   });
+
+  it('blocks moving into water when next step is clear', () => {
+    const biomes: Biome[][] = [[Biome.Field, Biome.Water]];
+    const map = new Map(0, 0, biomes, 9, [Weather.Snow, Weather.Clear]);
+    expect(() => map.applyMove(Direction.E)).toThrow(InvalidPositionError);
+  });
 });

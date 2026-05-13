@@ -158,6 +158,16 @@ describe('renderMap', () => {
       expect(location.hash).toBe(hashBefore);
     });
 
+    it('does not click into water when next step is clear', () => {
+      location.hash = '#WFF:0,1:9:SC';
+      const map = new Map(0, 1, [[Biome.Water, Biome.Field, Biome.Field]], 9, [Weather.Snow, Weather.Clear]);
+      const el = renderMap(map);
+      const tiles = el.querySelectorAll('.tile');
+      const hashBefore = location.hash;
+      tiles[0].click();
+      expect(location.hash).toBe(hashBefore);
+    });
+
     it('does not click into frozen water when game over', () => {
       const map = new Map(0, 1, [[Biome.Water, Biome.Field, Biome.Field]], 1, [Weather.Snow]);
       map.applyMove(Direction.W); // one step onto water, supplies exhausted

@@ -108,8 +108,8 @@ export class Map {
       throw new InvalidPositionError(newRow, newCol);
     }
 
-    const canTraverseWater = this.getWeather() === Weather.Snow;
-    if (this.tiles[newRow][newCol].biome === Biome.Water && !canTraverseWater) {
+    const nextWeather = this.weatherCycle[(this.stepCount + 1) % this.weatherCycle.length];
+    if (this.tiles[newRow][newCol].biome === Biome.Water && nextWeather !== Weather.Snow) {
       throw new InvalidPositionError(newRow, newCol);
     }
 
