@@ -31,8 +31,8 @@ export function renderMap(map: Map): HTMLElement {
       if (row === map.player.row && col === map.player.col) {
         tileEl.classList.add('player');
       }
-      if (map.tiles[row][col].visited) {
-        tileEl.classList.add('visited');
+      if (map.tiles[row][col].biome !== Biome.Water && !map.tiles[row][col].visited) {
+        tileEl.classList.add('unvisited');
       }
 
       const dRow = Math.abs(row - map.player.row);

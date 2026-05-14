@@ -48,7 +48,7 @@ body {
 .tile {
   width: 60px;
   height: 60px;
-  background: #c4b08a;
+  background: #8fb87a;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -58,10 +58,6 @@ body {
 .tile.player {
   background: #d4a017;
   border: 3px solid #b8860b;
-}
-
-.tile.visited {
-  background: #8fb87a;
 }
 
 .tile.water {
@@ -96,36 +92,14 @@ body {
   background: #a0c8cc;
 }
 
-.tile.visited.water {
-  background: #6ba0b8;
-}
-
-.tile.player.visited.water {
-  background: #6ba0b8;
-}
-
-.tile.visited.frozen {
-  background: #88b8d8;
-}
-
-.tile.player.visited.frozen {
-  background: #88b8d8;
-}
-
-.tile.visited.marsh {
-  background: #5a7e3e;
-}
-
-.tile.player.visited.marsh {
-  background: #5a7e3e;
-}
-
-.tile.visited.marsh.frozen {
-  background: #80a8b4;
-}
-
-.tile.player.visited.marsh.frozen {
-  background: #80a8b4;
+.tile.unvisited {
+  background-image: repeating-linear-gradient(
+    45deg,
+    transparent,
+    transparent 3px,
+    rgba(0, 0, 0, 0.12) 3px,
+    rgba(0, 0, 0, 0.12) 6px
+  );
 }
 
 .result .num {

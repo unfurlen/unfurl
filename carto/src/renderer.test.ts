@@ -44,20 +44,30 @@ describe('renderMap', () => {
     expect(el.querySelectorAll('.tile.player').length).toBe(1);
   });
 
-  it('adds visited class to visited tiles', () => {
+  it('visited tiles lose unvisited class', () => {
     const map = new Map(0, 0, fieldGrid(3, 3), 9, [Weather.Clear]);
     map.applyMove(Direction.E);
     const el = renderMap(map);
     const tiles = el.querySelectorAll('.tile');
-    expect(tiles[0].classList.contains('visited')).toBe(true);
-    expect(tiles[1].classList.contains('visited')).toBe(true);
+    expect(tiles[0].classList.contains('unvisited')).toBe(false);
+    expect(tiles[1].classList.contains('unvisited')).toBe(false);
+    expect(tiles[2].classList.contains('unvisited')).toBe(true);
   });
 
-  it('unvisited tiles have no visited class', () => {
+  it('unvisited non-water tiles get unvisited class', () => {
     const map = new Map(0, 0, fieldGrid(3, 3), 9, [Weather.Clear]);
     const el = renderMap(map);
     const tiles = el.querySelectorAll('.tile');
-    expect(tiles[1].classList.contains('visited')).toBe(false);
+    expect(tiles[0].classList.contains('unvisited')).toBe(false);
+    expect(tiles[1].classList.contains('unvisited')).toBe(true);
+  });
+
+  it('water tiles never get unvisited class', () => {
+    const map = new Map(0, 0, [[Biome.Field, Biome.Field, Biome.Water]], 9, [Weather.Clear]);
+    const el = renderMap(map);
+    const tiles = el.querySelectorAll('.tile');
+    expect(tiles[1].classList.contains('unvisited')).toBe(true);
+    expect(tiles[2].classList.contains('unvisited')).toBe(false);
   });
 
   it('adds frozen class to water tiles during snow', () => {
