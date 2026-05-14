@@ -85,21 +85,29 @@ body {
 }
 
 .tile.marsh.frozen {
-  background: #a0c8cc;
+  background-color: #a0c8cc;
 }
 
 .tile.player.marsh.frozen {
-  background: #a0c8cc;
+  background-color: #a0c8cc;
 }
 
-.tile.unvisited {
-  background-image: repeating-linear-gradient(
-    45deg,
-    transparent,
-    transparent 3px,
-    rgba(0, 0, 0, 0.12) 3px,
-    rgba(0, 0, 0, 0.12) 6px
-  );
+:is(.tile).unvisited {
+  background-image:
+    repeating-linear-gradient(
+      45deg,
+      transparent,
+      transparent 2px,
+      rgba(0, 0, 0, 0.18) 2px,
+      rgba(0, 0, 0, 0.18) 5px
+    ),
+    repeating-linear-gradient(
+      -45deg,
+      transparent,
+      transparent 2px,
+      rgba(0, 0, 0, 0.18) 2px,
+      rgba(0, 0, 0, 0.18) 5px
+    );
 }
 
 .result .num {
