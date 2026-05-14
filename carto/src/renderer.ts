@@ -88,6 +88,43 @@ export function renderControls(
   return container;
 }
 
+export function renderInfoButton(): HTMLElement {
+  const btn = document.createElement('button');
+  btn.className = 'info-button';
+  btn.textContent = 'ℹ️';
+  btn.addEventListener('click', showInfoModal);
+  return btn;
+}
+
+let infoModal: HTMLElement | null = null;
+
+function showInfoModal() {
+  if (!infoModal) {
+    infoModal = document.createElement('div');
+    infoModal.className = 'modal-overlay';
+    infoModal.innerHTML = `
+      <div class="modal-content">
+        <button class="modal-close">✕</button>
+        <h2>How to Play</h2>
+        <p>🌿 Explore all field tiles to complete the map.</p>
+        <p>💧 Water is only passable when frozen ❄️.</p>
+        <p>🎒 Don't run out of supplies.</p>
+        <p>🔗 Share your URL to challenge others.</p>
+      </div>
+    `;
+    infoModal.addEventListener('click', (e) => {
+      if (e.target === infoModal) hideInfoModal();
+    });
+    infoModal.querySelector('.modal-close')!.addEventListener('click', hideInfoModal);
+    document.body.appendChild(infoModal);
+  }
+  infoModal.classList.add('visible');
+}
+
+function hideInfoModal() {
+  if (infoModal) infoModal.classList.remove('visible');
+}
+
 export function renderResult(steps: number, supplies: number): HTMLElement {
   const el = document.createElement('div');
   el.className = 'result';

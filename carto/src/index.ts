@@ -1,5 +1,5 @@
 import './style.css';
-import { renderMap, renderControls, renderResult, renderWeather } from './renderer.ts';
+import { renderMap, renderControls, renderResult, renderWeather, renderInfoButton } from './renderer.ts';
 import { parseMapUrl, getFullHistory, getBackUrl, getForwardUrl } from './url.ts';
 import { Direction } from './map.ts';
 
@@ -33,6 +33,7 @@ function render() {
       }
     }
   ));
+  app.appendChild(renderInfoButton());
 }
 
 render();

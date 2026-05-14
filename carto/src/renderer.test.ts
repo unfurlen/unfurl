@@ -2,7 +2,7 @@ import { describe, it, expect, vi } from 'vitest';
 import { Map, Direction } from './map.ts';
 import { Biome } from './biome.ts';
 import { Weather } from './weather.ts';
-import { renderMap, renderControls, renderResult, renderWeather } from './renderer.ts';
+import { renderMap, renderControls, renderResult, renderWeather, renderInfoButton } from './renderer.ts';
 
 function fieldGrid(w: number, h: number): Biome[][] {
   return Array.from({ length: h }, () => Array(w).fill(Biome.Field));
@@ -262,6 +262,33 @@ describe('renderControls', () => {
     const el = renderControls('#0', null, vi.fn());
     const forward = el.querySelector('.forward') as HTMLButtonElement;
     expect(forward.disabled).toBe(true);
+  });
+});
+
+describe('renderInfoButton', () => {
+  it('clicking info shows modal', () => {
+    const el = renderInfoButton();
+    el.click();
+    const modal = document.body.querySelector('.modal-overlay');
+    expect(modal).toBeTruthy();
+    expect(modal!.classList.contains('visible')).toBe(true);
+  });
+
+  it('clicking close hides modal', () => {
+    const el = renderInfoButton();
+    el.click();
+    const modal = document.body.querySelector('.modal-overlay')!;
+    const close = modal.querySelector('.modal-close') as HTMLButtonElement;
+    close.click();
+    expect(modal.classList.contains('visible')).toBe(false);
+  });
+
+  it('clicking backdrop hides modal', () => {
+    const el = renderInfoButton();
+    el.click();
+    const modal = document.body.querySelector('.modal-overlay')!;
+    modal.dispatchEvent(new MouseEvent('click', { bubbles: true }));
+    expect(modal.classList.contains('visible')).toBe(false);
   });
 });
 
