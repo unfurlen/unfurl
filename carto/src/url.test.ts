@@ -58,6 +58,13 @@ describe('parseMapUrl', () => {
     expect(() => parseMapUrl(hash)).toThrow(URLParseError);
   });
 
+  it('parses marsh biome', () => {
+    const { map } = parseMapUrl('#MMF,FFF:0,0:9:C');
+    expect(map.getTile(0, 0).biome).toBe(Biome.Marsh);
+    expect(map.getTile(0, 1).biome).toBe(Biome.Marsh);
+    expect(map.getTile(0, 2).biome).toBe(Biome.Field);
+  });
+
   it('throws for jagged biome rows', () => {
     expect(() => parseMapUrl('#FFF,FF:0,0:9:C')).toThrow(URLParseError);
   });

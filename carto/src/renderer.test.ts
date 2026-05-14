@@ -75,6 +75,14 @@ describe('renderMap', () => {
     expect(tiles[0].classList.contains('frozen')).toBe(false);
   });
 
+  it('marks marsh tile with marsh class', () => {
+    const map = new Map(0, 0, [[Biome.Field, Biome.Marsh]], 9, [Weather.Clear]);
+    const el = renderMap(map);
+    const tiles = el.querySelectorAll('.tile');
+    expect(tiles[0].classList.contains('marsh')).toBe(false);
+    expect(tiles[1].classList.contains('marsh')).toBe(true);
+  });
+
   it('adds complete class to grid when map is complete', () => {
     const map = new Map(0, 0, fieldGrid(2, 2), 4, [Weather.Clear]);
     map.applyMove(Direction.E);

@@ -188,3 +188,23 @@ describe('applyMove with weather', () => {
     expect(() => map.applyMove(Direction.E)).toThrow(InvalidPositionError);
   });
 });
+
+describe('applyMove with marsh', () => {
+  it('entering marsh costs 2 supplies', () => {
+    const map = new Map(0, 0, [[Biome.Field, Biome.Marsh]], 9, [Weather.Clear]);
+    map.applyMove(Direction.E);
+    expect(map.supplies).toBe(7);
+  });
+
+  it('blocks moving into marsh with 1 supply', () => {
+    const map = new Map(0, 0, [[Biome.Field, Biome.Marsh]], 1, [Weather.Clear]);
+    expect(() => map.applyMove(Direction.E)).toThrow(InvalidPositionError);
+  });
+
+  it('marsh must be visited for completion', () => {
+    const map = new Map(0, 0, [[Biome.Field, Biome.Marsh]], 9, [Weather.Clear]);
+    expect(map.isComplete()).toBe(false);
+    map.applyMove(Direction.E);
+    expect(map.isComplete()).toBe(true);
+  });
+});

@@ -30,6 +30,7 @@ function parseBiomes(input: string): Biome[][] {
     for (const ch of row) {
       if (ch === 'F') biomeRow.push(Biome.Field);
       else if (ch === 'W') biomeRow.push(Biome.Water);
+      else if (ch === 'M') biomeRow.push(Biome.Marsh);
       else throw new URLParseError(input);
     }
     biomes.push(biomeRow);

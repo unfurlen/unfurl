@@ -17,6 +17,9 @@ export const Biome = {
     [Weather.Clear]: { traversable: false, cost: Infinity },
     [Weather.Snow]: { traversable: true, cost: 1 },
   },
+  Marsh: {
+    [Weather.Clear]: { traversable: true, cost: 2 },
+  },
 } as const satisfies Record<string, BiomeDef>;
 
 export type Biome = (typeof Biome)[keyof typeof Biome];

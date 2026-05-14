@@ -80,6 +80,14 @@ body {
   background: #a8c8e8;
 }
 
+.tile.marsh {
+  background: #6b8e4e;
+}
+
+.tile.player.marsh {
+  background: #6b8e4e;
+}
+
 .result .num {
   font-size: 24px;
   font-weight: 700;
