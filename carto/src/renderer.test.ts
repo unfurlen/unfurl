@@ -83,6 +83,13 @@ describe('renderMap', () => {
     expect(tiles[1].classList.contains('marsh')).toBe(true);
   });
 
+  it('adds frozen class to marsh during snow', () => {
+    const map = new Map(0, 1, [[Biome.Marsh, Biome.Field]], 9, [Weather.Snow]);
+    const el = renderMap(map);
+    const tiles = el.querySelectorAll('.tile');
+    expect(tiles[0].classList.contains('frozen')).toBe(true);
+  });
+
   it('adds complete class to grid when map is complete', () => {
     const map = new Map(0, 0, fieldGrid(2, 2), 4, [Weather.Clear]);
     map.applyMove(Direction.E);

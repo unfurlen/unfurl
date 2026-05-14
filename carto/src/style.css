@@ -88,6 +88,46 @@ body {
   background: #6b8e4e;
 }
 
+.tile.marsh.frozen {
+  background: #a0c8cc;
+}
+
+.tile.player.marsh.frozen {
+  background: #a0c8cc;
+}
+
+.tile.visited.water {
+  background: #6ba0b8;
+}
+
+.tile.player.visited.water {
+  background: #6ba0b8;
+}
+
+.tile.visited.frozen {
+  background: #88b8d8;
+}
+
+.tile.player.visited.frozen {
+  background: #88b8d8;
+}
+
+.tile.visited.marsh {
+  background: #5a7e3e;
+}
+
+.tile.player.visited.marsh {
+  background: #5a7e3e;
+}
+
+.tile.visited.marsh.frozen {
+  background: #80a8b4;
+}
+
+.tile.player.visited.marsh.frozen {
+  background: #80a8b4;
+}
+
 .result .num {
   font-size: 24px;
   font-weight: 700;

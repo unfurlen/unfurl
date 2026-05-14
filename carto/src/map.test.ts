@@ -207,4 +207,10 @@ describe('applyMove with marsh', () => {
     map.applyMove(Direction.E);
     expect(map.isComplete()).toBe(true);
   });
+
+  it('entering marsh in snow costs 1 supply', () => {
+    const map = new Map(0, 0, [[Biome.Field, Biome.Marsh]], 9, [Weather.Snow]);
+    map.applyMove(Direction.E);
+    expect(map.supplies).toBe(8);
+  });
 });

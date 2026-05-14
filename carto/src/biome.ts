@@ -19,6 +19,7 @@ export const Biome = {
   },
   Marsh: {
     [Weather.Clear]: { traversable: true, cost: 2 },
+    [Weather.Snow]: { traversable: true, cost: 1 },
   },
 } as const satisfies Record<string, BiomeDef>;
 

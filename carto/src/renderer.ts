@@ -24,6 +24,9 @@ export function renderMap(map: Map): HTMLElement {
         }
       } else if (map.tiles[row][col].biome === Biome.Marsh) {
         tileEl.classList.add('marsh');
+        if (map.getWeather() === Weather.Snow) {
+          tileEl.classList.add('frozen');
+        }
       }
       if (row === map.player.row && col === map.player.col) {
         tileEl.classList.add('player');
