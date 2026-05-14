@@ -71,7 +71,7 @@ export class Map {
       throw new InvalidPositionError(startRow, startCol);
     }
 
-    if (biomes[startRow][startCol] === Biome.Water) {
+    if (!biomes[startRow][startCol][Weather.Clear].traversable) {
       throw new InvalidPositionError(startRow, startCol);
     }
 
@@ -108,14 +108,19 @@ export class Map {
       throw new InvalidPositionError(newRow, newCol);
     }
 
+    const biome = this.tiles[newRow][newCol].biome;
     const nextWeather = this.weatherCycle[(this.stepCount + 1) % this.weatherCycle.length];
-    if (this.tiles[newRow][newCol].biome === Biome.Water && nextWeather !== Weather.Snow) {
+    const state = biome[nextWeather] ?? biome[Weather.Clear];
+    if (!state.traversable) {
+      throw new InvalidPositionError(newRow, newCol);
+    }
+    if (this.supplies < state.cost) {
       throw new InvalidPositionError(newRow, newCol);
     }
 
     this.tiles[newRow][newCol] = this.tiles[newRow][newCol].visit();
     this.player = new Player(newRow, newCol);
-    this.supplies--;
+    this.supplies -= state.cost;
     this.stepCount++;
   }
 
@@ -125,7 +130,7 @@ export class Map {
 
   isComplete(): boolean {
     return this.tiles.every(row =>
-      row.every(tile => tile.biome === Biome.Water || tile.visited)
+      row.every(tile => !tile.biome[Weather.Clear].traversable || tile.visited)
     );
   }
 
