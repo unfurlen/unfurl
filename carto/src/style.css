@@ -48,66 +48,68 @@ body {
 .tile {
   width: 60px;
   height: 60px;
-  background: #8fb87a;
+  background: conic-gradient(
+    #84b068 0deg 90deg,
+    #7ba466 90deg 180deg,
+    #6e9a58 180deg 270deg,
+    #64904e 270deg 360deg
+  );
   display: flex;
   align-items: center;
   justify-content: center;
   box-sizing: border-box;
+  position: relative;
 }
 
 .tile.player {
-  background: #d4a017;
-  border: 3px solid #b8860b;
+  border: 5px solid #b8860b;
 }
 
 .tile.water {
-  background: #5b8db8;
+  background: conic-gradient(
+    #5c9ec8 0deg 90deg,
+    #5694b8 90deg 180deg,
+    #508aac 180deg 270deg,
+    #4a80a0 270deg 360deg
+  );
 }
 
-.tile.frozen {
-  background: #a8c8e8;
-}
-
-.tile.player.water {
-  background: #5b8db8;
-}
-
-.tile.player.frozen {
-  background: #a8c8e8;
+.tile.water.frozen {
+  background: conic-gradient(
+    #accee8 0deg 90deg,
+    #a4c4e0 90deg 180deg,
+    #9cbed6 180deg 270deg,
+    #94b4cc 270deg 360deg
+  );
 }
 
 .tile.marsh {
-  background: #6b8e4e;
-}
-
-.tile.player.marsh {
-  background: #6b8e4e;
+  background: conic-gradient(
+    #5e7a3e 0deg 90deg,
+    #606438 90deg 180deg,
+    #526832 180deg 270deg,
+    #54562e 270deg 360deg
+  );
 }
 
 .tile.marsh.frozen {
-  background-color: #a0c8cc;
-}
-
-.tile.player.marsh.frozen {
-  background-color: #a0c8cc;
+  background: conic-gradient(
+    #a4d0cc 0deg 90deg,
+    #9cc8c4 90deg 180deg,
+    #90bcb8 180deg 270deg,
+    #84b0ac 270deg 360deg
+  );
 }
 
 :is(.tile).unvisited {
-  background-image:
-    repeating-linear-gradient(
-      45deg,
-      transparent,
-      transparent 2px,
-      rgba(0, 0, 0, 0.18) 2px,
-      rgba(0, 0, 0, 0.18) 5px
-    ),
-    repeating-linear-gradient(
-      -45deg,
-      transparent,
-      transparent 2px,
-      rgba(0, 0, 0, 0.18) 2px,
-      rgba(0, 0, 0, 0.18) 5px
-    );
+  border: 5px solid #999;
+}
+
+:is(.tile).unvisited::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: rgba(200, 195, 185, 0.3);
 }
 
 .result .num {
