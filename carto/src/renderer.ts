@@ -113,9 +113,11 @@ function showInfoModal() {
       <div class="modal-content">
         <button class="modal-close">✕</button>
         <h2>How to Play</h2>
-        <p>🌿 Explore all field tiles to complete the map.</p>
-        <p>💧 Water is only passable when frozen ❄️.</p>
-        <p>🎒 Don't run out of supplies.</p>
+        <p>🌿 <b>Field</b> — open terrain, costs 1 supply.</p>
+        <p>💧 <b>Water</b> — only passable when frozen ❄️, costs 1 supply.</p>
+        <p>🟫 <b>Marsh</b> — heavy ground, costs 2 supplies (1 when frozen ❄️).</p>
+        <p>☀️❄️ Weather cycles determine what's frozen.</p>
+        <p>🎒 Complete the map by visiting all non-water tiles.</p>
         <p>🔗 Share your URL to challenge others.</p>
       </div>
     `;

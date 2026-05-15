@@ -19,8 +19,13 @@ function render() {
 
   const steps = path.length;
 
+  const resultRow = document.createElement('div');
+  resultRow.className = 'result-row';
+  resultRow.appendChild(renderResult(steps, map.supplies));
+  resultRow.appendChild(renderInfoButton());
+
   const app = document.getElementById('app')!;
-  app.replaceChildren(renderWeather(map.weatherCycle, path.length), renderResult(steps, map.supplies), renderMap(map));
+  app.replaceChildren(renderWeather(map.weatherCycle, path.length), resultRow, renderMap(map));
   app.appendChild(renderControls(
     backUrl,
     forwardUrl,
@@ -33,7 +38,6 @@ function render() {
       }
     }
   ));
-  app.appendChild(renderInfoButton());
 }
 
 render();
