@@ -2,7 +2,7 @@ import { describe, it, expect, vi } from 'vitest';
 import { Map, Direction } from './map';
 import { Biome } from './biome';
 import { Weather } from './weather';
-import { renderMap, renderControls, renderResult, renderWeather, renderInfoButton } from './renderer';
+import { renderMap, renderControls, renderResult, renderWeather, renderInfoButton, renderEditButton } from './renderer';
 
 function fieldGrid(w: number, h: number): Biome[][] {
   return Array.from({ length: h }, () => Array(w).fill(Biome.Field));
@@ -287,6 +287,22 @@ describe('renderControls', () => {
     const el = renderControls('#0', null, vi.fn());
     const forward = el.querySelector('.forward') as HTMLButtonElement;
     expect(forward.disabled).toBe(true);
+  });
+});
+
+describe('renderEditButton', () => {
+  it('clicking enters edit mode', () => {
+    location.hash = '#FFF:0,0:9:C';
+    const btn = renderEditButton();
+    btn.click();
+    expect(location.hash).toBe('#FFF:0,0:9:C::e');
+  });
+
+  it('clicking exits edit mode', () => {
+    location.hash = '#FFF:0,0:9:C::e';
+    const btn = renderEditButton();
+    btn.click();
+    expect(location.hash).toBe('#FFF:0,0:9:C');
   });
 });
 

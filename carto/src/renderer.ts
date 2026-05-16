@@ -2,6 +2,7 @@ import { Map, Direction } from './map';
 import { Biome } from './biome';
 import { Weather } from './weather';
 import { buildMapUrl } from './url';
+import { toggleEditMode } from './edit';
 
 export function renderMap(map: Map): HTMLElement {
   const container = document.createElement('div');
@@ -107,6 +108,9 @@ export function renderEditButton(): HTMLElement {
   const btn = document.createElement('button');
   btn.className = 'edit-button';
   btn.textContent = '✏️';
+  btn.addEventListener('click', () => {
+    location.hash = toggleEditMode(location.hash);
+  });
   return btn;
 }
 

@@ -6,10 +6,13 @@ import { Direction } from './map';
 let fullHistory: Direction[] = [];
 
 function render() {
-  const { map, path } = parseMapUrl(location.hash);
-  for (const dir of path) {
-    if (map.isGameOver()) break;
-    map.applyMove(dir);
+  const { map, path, mode } = parseMapUrl(location.hash);
+
+  if (mode === 'play') {
+    for (const dir of path) {
+      if (map.isGameOver()) break;
+      map.applyMove(dir);
+    }
   }
 
   fullHistory = getFullHistory(fullHistory, path);
