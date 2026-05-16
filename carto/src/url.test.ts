@@ -111,6 +111,43 @@ describe('parseMapUrl path', () => {
   });
 });
 
+describe('parseMapUrl mode', () => {
+  it('returns play mode from 4-part hash (no path, no mode)', () => {
+    const { mode } = parseMapUrl('#FFF,FFF,FFF:0,0:9:C');
+    expect(mode).toBe('play');
+  });
+
+  it('returns play mode from 5-part hash (path, no mode)', () => {
+    const { mode } = parseMapUrl('#FFF,FFF,FFF:0,0:9:C:NESE');
+    expect(mode).toBe('play');
+  });
+
+  it('returns edit mode from ::e hash', () => {
+    const { mode } = parseMapUrl('#FFF,FFF,FFF:0,0:9:C::e');
+    expect(mode).toBe('edit');
+  });
+
+  it('returns edit mode from path:e hash', () => {
+    const { mode } = parseMapUrl('#FFF,FFF,FFF:0,0:9:C:NESE:e');
+    expect(mode).toBe('edit');
+  });
+
+  it('returns empty path in edit mode ignoring path segment', () => {
+    const { path } = parseMapUrl('#FFF,FFF,FFF:0,0:9:C:NESE:e');
+    expect(path).toEqual([]);
+  });
+
+  it('returns empty path in edit mode with ::e', () => {
+    const { path } = parseMapUrl('#FFF,FFF,FFF:0,0:9:C::e');
+    expect(path).toEqual([]);
+  });
+
+  it('returns path from play mode', () => {
+    const { path } = parseMapUrl('#FFF,FFF,FFF:0,0:9:C:NESE');
+    expect(path).toEqual([Direction.N, Direction.E, Direction.S, Direction.E]);
+  });
+});
+
 describe('buildMapUrl', () => {
   it('appends direction to hash with start and limit but no path', () => {
     expect(buildMapUrl('#FFF,FFF,FFF:0,0:9:C', Direction.N)).toBe('#FFF,FFF,FFF:0,0:9:C:N');

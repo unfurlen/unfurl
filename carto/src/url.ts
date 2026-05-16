@@ -59,7 +59,7 @@ function parseWeatherCycle(input: string): _W[] {
   return input.split('') as _W[];
 }
 
-export function parseMapUrl(hash: string): { map: Map; path: Direction[] } {
+export function parseMapUrl(hash: string): { map: Map; path: Direction[]; mode: 'play' | 'edit' } {
   const cleaned = hash.replace(/^#/, '');
   if (!cleaned) throw new URLParseError(hash);
 
@@ -77,9 +77,11 @@ export function parseMapUrl(hash: string): { map: Map; path: Direction[] } {
   if (!Number.isInteger(supplies) || supplies < 1) throw new URLParseError(hash);
 
   const cycle = parseWeatherCycle(parts[3]);
-  const path = parts[4] ? parsePath(parts[4]) : [];
 
-  return { map: new Map(startRow, startCol, biomes, supplies, cycle), path };
+  const mode: 'play' | 'edit' = parts[5] === 'e' ? 'edit' : 'play';
+  const path = mode === 'edit' ? [] : (parts[4] !== undefined ? parsePath(parts[4]) : []);
+
+  return { map: new Map(startRow, startCol, biomes, supplies, cycle), path, mode };
 }
 
 export function buildMapUrl(hash: string, direction: Direction): string {

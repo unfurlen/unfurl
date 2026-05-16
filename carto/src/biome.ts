@@ -7,6 +7,7 @@ type BiomeState = {
 
 type BiomeDef = {
   [Weather.Clear]: BiomeState;
+  [Weather.Snow]?: BiomeState;
 };
 
 export const Biome = {
@@ -23,4 +24,7 @@ export const Biome = {
   },
 } as const satisfies Record<string, BiomeDef>;
 
-export type Biome = (typeof Biome)[keyof typeof Biome];
+export type Biome = {
+  [Weather.Clear]: BiomeState;
+  [Weather.Snow]?: BiomeState;
+};
