@@ -230,6 +230,11 @@ body.edit-mode {
   background: rgba(0, 0, 0, 0.08);
 }
 
+.edit-button.edit-mode {
+  border: 2px solid #6b5b45;
+  background: rgba(0, 0, 0, 0.05);
+}
+
 .reset-button {
   position: absolute;
   left: 0;

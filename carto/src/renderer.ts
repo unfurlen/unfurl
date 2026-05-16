@@ -110,9 +110,12 @@ export function renderInfoButton(): HTMLElement {
   return btn;
 }
 
-export function renderEditButton(): HTMLElement {
+export function renderEditButton(mode: 'play' | 'edit' = 'play'): HTMLElement {
   const btn = document.createElement('button');
   btn.className = 'edit-button';
+  if (mode === 'edit') {
+    btn.classList.add('edit-mode');
+  }
   btn.textContent = '✏️';
   btn.addEventListener('click', () => {
     location.hash = toggleEditMode(location.hash);

@@ -312,6 +312,16 @@ describe('renderEditButton', () => {
     btn.click();
     expect(location.hash).toBe('#FFF:0,0:9:C');
   });
+
+  it('adds edit-mode class when in edit mode', () => {
+    const btn = renderEditButton('edit');
+    expect(btn.classList.contains('edit-mode')).toBe(true);
+  });
+
+  it('does not add edit-mode class in play mode', () => {
+    const btn = renderEditButton('play');
+    expect(btn.classList.contains('edit-mode')).toBe(false);
+  });
 });
 
 describe('renderInfoButton', () => {

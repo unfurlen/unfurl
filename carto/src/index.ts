@@ -27,7 +27,7 @@ function render() {
   resultRow.className = 'result-row';
   const rightGroup = document.createElement('div');
   rightGroup.className = 'right-group';
-  rightGroup.appendChild(renderEditButton());
+  rightGroup.appendChild(renderEditButton(mode));
   rightGroup.appendChild(renderInfoButton());
   resultRow.appendChild(renderResetButton());
   resultRow.appendChild(renderResult(steps, map.supplies));
