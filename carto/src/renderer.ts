@@ -103,6 +103,17 @@ export function renderInfoButton(): HTMLElement {
   return btn;
 }
 
+export function renderResetButton(): HTMLElement {
+  const btn = document.createElement('button');
+  btn.className = 'reset-button';
+  btn.textContent = '🔄';
+  btn.addEventListener('click', () => {
+    const parts = location.hash.replace(/^#/, '').split(':');
+    location.hash = '#' + parts.slice(0, 4).join(':');
+  });
+  return btn;
+}
+
 let infoModal: HTMLElement | null = null;
 
 function showInfoModal() {

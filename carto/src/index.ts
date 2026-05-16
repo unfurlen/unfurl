@@ -1,5 +1,5 @@
 import './style.css';
-import { renderMap, renderControls, renderResult, renderWeather, renderInfoButton } from './renderer.ts';
+import { renderMap, renderControls, renderResult, renderWeather, renderInfoButton, renderResetButton } from './renderer.ts';
 import { parseMapUrl, getFullHistory, getBackUrl, getForwardUrl } from './url.ts';
 import { Direction } from './map.ts';
 
@@ -21,6 +21,7 @@ function render() {
 
   const resultRow = document.createElement('div');
   resultRow.className = 'result-row';
+  resultRow.appendChild(renderResetButton());
   resultRow.appendChild(renderResult(steps, map.supplies));
   resultRow.appendChild(renderInfoButton());
 

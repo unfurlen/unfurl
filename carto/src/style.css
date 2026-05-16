@@ -206,6 +206,22 @@ body {
   background: rgba(0, 0, 0, 0.08);
 }
 
+.reset-button {
+  position: absolute;
+  left: 0;
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 20px;
+  padding: 4px;
+  color: #3e2c1a;
+  border-radius: 4px;
+}
+
+.reset-button:hover {
+  background: rgba(0, 0, 0, 0.08);
+}
+
 .modal-overlay {
   position: fixed;
   inset: 0;
