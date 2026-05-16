@@ -103,6 +103,13 @@ export function renderInfoButton(): HTMLElement {
   return btn;
 }
 
+export function renderEditButton(): HTMLElement {
+  const btn = document.createElement('button');
+  btn.className = 'edit-button';
+  btn.textContent = '✏️';
+  return btn;
+}
+
 export function renderResetButton(): HTMLElement {
   const btn = document.createElement('button');
   btn.className = 'reset-button';
