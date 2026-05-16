@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import { toggleEditMode, cycleTileBiome } from './edit';
+import { toggleEditMode, cycleTileBiome, setPlayerStart } from './edit';
 
 describe('toggleEditMode', () => {
   it('adds edit mode to bare URL (4 parts)', () => {
@@ -32,10 +32,6 @@ describe('cycleTileBiome', () => {
     expect(cycleTileBiome('#MFF:0,0:9:C::e', 0, 0)).toBe('#FFF:0,0:9:C::e');
   });
 
-  it('strips existing path', () => {
-    expect(cycleTileBiome('#FFF:0,0:9:C:NESE', 0, 1)).toBe('#FWF:0,0:9:C::e');
-  });
-
   it('works with multi-row grid', () => {
     expect(cycleTileBiome('#FFF,FFF:0,0:9:C::e', 1, 0)).toBe('#FFF,WFF:0,0:9:C::e');
   });
@@ -46,5 +42,11 @@ describe('cycleTileBiome', () => {
 
   it('throws RangeError for OOB col', () => {
     expect(() => cycleTileBiome('#FFF:0,0:9:C::e', 0, 5)).toThrow(RangeError);
+  });
+});
+
+describe('setPlayerStart', () => {
+  it('sets start position', () => {
+    expect(setPlayerStart('#FFF:0,0:9:C::e', 2, 3)).toBe('#FFF:2,3:9:C::e');
   });
 });

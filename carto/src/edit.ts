@@ -9,8 +9,12 @@ export function cycleTileBiome(hash: string, row: number, col: number): string {
   chars[col] = cycle[chars[col]] ?? chars[col];
   rows[row] = chars.join('');
   parts[0] = rows.join(',');
-  parts.length = 4;
-  parts.push('', 'e');
+  return '#' + parts.join(':');
+}
+
+export function setPlayerStart(hash: string, row: number, col: number): string {
+  const parts = hash.replace(/^#/, '').split(':');
+  parts[1] = `${row},${col}`;
   return '#' + parts.join(':');
 }
 
