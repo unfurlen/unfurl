@@ -1,8 +1,8 @@
-import { describe, it, expect, vi } from 'vitest';
+import { describe, it, expect, vi, beforeEach } from 'vitest';
 import { Map, Direction } from './map';
 import { Biome } from './biome';
 import { Weather } from './weather';
-import { renderMap, renderControls, renderResult, renderWeather, renderInfoButton, renderEditButton } from './renderer';
+import { renderMap, renderControls, renderResult, renderWeather, renderInfoButton, renderEditButton, applyEditMode } from './renderer';
 
 function fieldGrid(w: number, h: number): Biome[][] {
   return Array.from({ length: h }, () => Array(w).fill(Biome.Field));
@@ -367,5 +367,22 @@ describe('renderWeather', () => {
   it('highlights weather at current step modulo cycle', () => {
     const el = renderWeather([Weather.Clear, Weather.Snow], 3);
     expect(el.children[1].classList.contains('current')).toBe(true);
+  });
+});
+
+describe('applyEditMode', () => {
+  beforeEach(() => {
+    document.body.classList.remove('edit-mode');
+  });
+
+  it('adds edit-mode body class when mode is edit', () => {
+    applyEditMode('edit');
+    expect(document.body.classList.contains('edit-mode')).toBe(true);
+  });
+
+  it('removes edit-mode body class when mode is play', () => {
+    document.body.classList.add('edit-mode');
+    applyEditMode('play');
+    expect(document.body.classList.contains('edit-mode')).toBe(false);
   });
 });

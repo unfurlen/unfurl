@@ -1,5 +1,5 @@
 import './style.css';
-import { renderMap, renderControls, renderResult, renderWeather, renderInfoButton, renderResetButton, renderEditButton } from './renderer';
+import { renderMap, renderControls, renderResult, renderWeather, renderInfoButton, renderResetButton, renderEditButton, applyEditMode } from './renderer';
 import { parseMapUrl, getFullHistory, getBackUrl, getForwardUrl } from './url';
 import { Direction } from './map';
 
@@ -7,6 +7,7 @@ let fullHistory: Direction[] = [];
 
 function render() {
   const { map, path, mode } = parseMapUrl(location.hash);
+  applyEditMode(mode);
 
   if (mode === 'play') {
     for (const dir of path) {

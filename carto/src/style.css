@@ -9,6 +9,10 @@ body {
   background: #d4c5a9;
 }
 
+body.edit-mode {
+  background: #a9b8c4;
+}
+
 #app {
   display: flex;
   flex-direction: column;

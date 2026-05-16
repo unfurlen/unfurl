@@ -162,6 +162,10 @@ function hideInfoModal() {
   if (infoModal) infoModal.classList.remove('visible');
 }
 
+export function applyEditMode(mode: 'play' | 'edit'): void {
+  document.body.classList.toggle('edit-mode', mode === 'edit');
+}
+
 export function renderResult(steps: number, supplies: number): HTMLElement {
   const el = document.createElement('div');
   el.className = 'result';
