@@ -7,7 +7,9 @@
     "test": "vitest run",
     "build": "vite build",
     "lint": "eslint oxo/src carto/src",
-    "lint:fix": "eslint oxo/src carto/src --fix"
+    "lint:fix": "eslint oxo/src carto/src --fix",
+    "typecheck": "tsc --noEmit",
+    "check": "npm run typecheck && npm run lint && npm test"
   },
   "devDependencies": {
     "eslint": "10.3.0",
