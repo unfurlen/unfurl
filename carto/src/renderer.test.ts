@@ -241,7 +241,15 @@ describe('renderMap', () => {
       expect(location.hash).toBe(hashBefore);
     });
 
-    it('does not move when expired', () => {
+    it('clicking tile in edit mode cycles biome', () => {
+    location.hash = '#FFF:0,0:9:C::e';
+    const map = new Map(0, 0, fieldGrid(2, 2), 9, [Weather.Clear]);
+    const el = renderMap(map, 'edit');
+    (el.querySelectorAll('.tile')[0] as HTMLElement).click();
+    expect(location.hash).toBe('#WFF:0,0:9:C::e');
+  });
+
+  it('does not move when expired', () => {
       const map = new Map(0, 0, fieldGrid(3, 3), 1, [Weather.Clear]);
       map.applyMove(Direction.E);
       const el = renderMap(map);

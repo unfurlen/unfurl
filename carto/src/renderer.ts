@@ -2,9 +2,9 @@ import { Map, Direction } from './map';
 import { Biome } from './biome';
 import { Weather } from './weather';
 import { buildMapUrl } from './url';
-import { toggleEditMode } from './edit';
+import { toggleEditMode, cycleTileBiome } from './edit';
 
-export function renderMap(map: Map): HTMLElement {
+export function renderMap(map: Map, mode: 'play' | 'edit' = 'play'): HTMLElement {
   const container = document.createElement('div');
   container.className = 'grid';
   if (map.isComplete()) {
@@ -36,22 +36,28 @@ export function renderMap(map: Map): HTMLElement {
         tileEl.classList.add('unvisited');
       }
 
-      const dRow = Math.abs(row - map.player.row);
-      const dCol = Math.abs(col - map.player.col);
-      const nextWeather = map.weatherCycle[(map.stepCount + 1) % map.weatherCycle.length];
-      const biome = map.tiles[row][col].biome;
-      const state = biome[nextWeather] ?? biome[Weather.Clear];
-      const canAfford = map.supplies >= state.cost;
-      if (dRow + dCol === 1 && state.traversable && canAfford && !map.isGameOver()) {
-        let dir: Direction;
-        if (row === map.player.row - 1) dir = Direction.N;
-        else if (row === map.player.row + 1) dir = Direction.S;
-        else if (col === map.player.col + 1) dir = Direction.E;
-        else dir = Direction.W;
-
+      if (mode === 'edit') {
         tileEl.addEventListener('click', () => {
-          location.hash = buildMapUrl(location.hash, dir);
+          location.hash = cycleTileBiome(location.hash, row, col);
         });
+      } else {
+        const dRow = Math.abs(row - map.player.row);
+        const dCol = Math.abs(col - map.player.col);
+        const nextWeather = map.weatherCycle[(map.stepCount + 1) % map.weatherCycle.length];
+        const biome = map.tiles[row][col].biome;
+        const state = biome[nextWeather] ?? biome[Weather.Clear];
+        const canAfford = map.supplies >= state.cost;
+        if (dRow + dCol === 1 && state.traversable && canAfford && !map.isGameOver()) {
+          let dir: Direction;
+          if (row === map.player.row - 1) dir = Direction.N;
+          else if (row === map.player.row + 1) dir = Direction.S;
+          else if (col === map.player.col + 1) dir = Direction.E;
+          else dir = Direction.W;
+
+          tileEl.addEventListener('click', () => {
+            location.hash = buildMapUrl(location.hash, dir);
+          });
+        }
       }
 
       container.appendChild(tileEl);
