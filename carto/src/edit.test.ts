@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import { toggleEditMode, cycleTileBiome, setPlayerStart } from './edit';
+import { toggleEditMode, cycleTileBiome, setPlayerStart, setSupplies } from './edit';
 
 describe('toggleEditMode', () => {
   it('adds edit mode to bare URL (4 parts)', () => {
@@ -48,5 +48,11 @@ describe('cycleTileBiome', () => {
 describe('setPlayerStart', () => {
   it('sets start position', () => {
     expect(setPlayerStart('#FFF:0,0:9:C::e', 2, 3)).toBe('#FFF:2,3:9:C::e');
+  });
+});
+
+describe('setSupplies', () => {
+  it('sets supplies value', () => {
+    expect(setSupplies('#FFF:0,0:9:C::e', 15)).toBe('#FFF:0,0:15:C::e');
   });
 });

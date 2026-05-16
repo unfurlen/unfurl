@@ -18,6 +18,12 @@ export function setPlayerStart(hash: string, row: number, col: number): string {
   return '#' + parts.join(':');
 }
 
+export function setSupplies(hash: string, n: number): string {
+  const parts = hash.replace(/^#/, '').split(':');
+  parts[2] = `${n}`;
+  return '#' + parts.join(':');
+}
+
 export function toggleEditMode(hash: string): string {
   const parts = hash.replace(/^#/, '').split(':');
   if (parts[parts.length - 1] === 'e') {
