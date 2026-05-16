@@ -124,7 +124,7 @@ describe('renderMap', () => {
       const map = new Map(1, 1, fieldGrid(3, 3), 9, [Weather.Clear]);
       const el = renderMap(map);
       const tiles = el.querySelectorAll('.tile');
-      tiles[1].click();
+      (tiles[1] as HTMLElement).click();
       expect(location.hash).toBe('#3x3:1,1:N');
     });
 
@@ -133,7 +133,7 @@ describe('renderMap', () => {
       const map = new Map(1, 1, fieldGrid(3, 3), 9, [Weather.Clear]);
       const el = renderMap(map);
       const tiles = el.querySelectorAll('.tile');
-      tiles[7].click();
+      (tiles[7] as HTMLElement).click();
       expect(location.hash).toBe('#3x3:1,1:S');
     });
 
@@ -142,7 +142,7 @@ describe('renderMap', () => {
       const map = new Map(1, 1, fieldGrid(3, 3), 9, [Weather.Clear]);
       const el = renderMap(map);
       const tiles = el.querySelectorAll('.tile');
-      tiles[5].click();
+      (tiles[5] as HTMLElement).click();
       expect(location.hash).toBe('#3x3:1,1:E');
     });
 
@@ -151,7 +151,7 @@ describe('renderMap', () => {
       const map = new Map(1, 1, fieldGrid(3, 3), 9, [Weather.Clear]);
       const el = renderMap(map);
       const tiles = el.querySelectorAll('.tile');
-      tiles[3].click();
+      (tiles[3] as HTMLElement).click();
       expect(location.hash).toBe('#3x3:1,1:W');
     });
 
@@ -160,7 +160,7 @@ describe('renderMap', () => {
       const map = new Map(1, 1, fieldGrid(3, 3), 9, [Weather.Clear]);
       const el = renderMap(map);
       const tiles = el.querySelectorAll('.tile');
-      tiles[4].click();
+      (tiles[4] as HTMLElement).click();
       expect(location.hash).toBe('#3x3:1,1');
     });
 
@@ -169,7 +169,7 @@ describe('renderMap', () => {
       const map = new Map(1, 1, fieldGrid(3, 3), 9, [Weather.Clear]);
       const el = renderMap(map);
       const tiles = el.querySelectorAll('.tile');
-      tiles[0].click();
+      (tiles[0] as HTMLElement).click();
       expect(location.hash).toBe('#3x3:1,1');
     });
 
@@ -185,7 +185,7 @@ describe('renderMap', () => {
       const map = new Map(0, 0, [[Biome.Field, Biome.Water]], 4, [Weather.Clear]);
       const el = renderMap(map);
       const tiles = el.querySelectorAll('.tile');
-      tiles[1].click();
+      (tiles[1] as HTMLElement).click();
       expect(location.hash).toBe('#F,W:0,0');
     });
 
@@ -194,7 +194,7 @@ describe('renderMap', () => {
       const map = new Map(0, 1, [[Biome.Water, Biome.Field, Biome.Field]], 9, [Weather.Snow]);
       const el = renderMap(map);
       const tiles = el.querySelectorAll('.tile');
-      tiles[0].click();
+      (tiles[0] as HTMLElement).click();
       expect(location.hash).toBe('#WF,F:0,1:W');
     });
 
@@ -204,7 +204,7 @@ describe('renderMap', () => {
       const el = renderMap(map);
       const tiles = el.querySelectorAll('.tile');
       const hashBefore = location.hash;
-      tiles[0].click();
+      (tiles[0] as HTMLElement).click();
       expect(location.hash).toBe(hashBefore);
     });
 
@@ -214,7 +214,7 @@ describe('renderMap', () => {
       const el = renderMap(map);
       const tiles = el.querySelectorAll('.tile');
       const hashBefore = location.hash;
-      tiles[0].click();
+      (tiles[0] as HTMLElement).click();
       expect(location.hash).toBe(hashBefore);
     });
 
@@ -224,7 +224,7 @@ describe('renderMap', () => {
       const el = renderMap(map);
       const tiles = el.querySelectorAll('.tile');
       const hashBefore = location.hash;
-      tiles[1].click();
+      (tiles[1] as HTMLElement).click();
       expect(location.hash).toBe(hashBefore);
     });
 
@@ -237,7 +237,7 @@ describe('renderMap', () => {
       const el = renderMap(map);
       const tiles = el.querySelectorAll('.tile');
       const hashBefore = location.hash;
-      tiles[3].click();
+      (tiles[3] as HTMLElement).click();
       expect(location.hash).toBe(hashBefore);
     });
 
@@ -247,7 +247,7 @@ describe('renderMap', () => {
       const el = renderMap(map);
       const tiles = el.querySelectorAll('.tile');
       const hashBefore = location.hash;
-      tiles[4].click();
+      (tiles[4] as HTMLElement).click();
       expect(location.hash).toBe(hashBefore);
     });
   });
