@@ -1,8 +1,8 @@
 import { describe, it, expect, vi } from 'vitest';
-import { Map, Direction } from './map.ts';
-import { Biome } from './biome.ts';
-import { Weather } from './weather.ts';
-import { renderMap, renderControls, renderResult, renderWeather, renderInfoButton } from './renderer.ts';
+import { Map, Direction } from './map';
+import { Biome } from './biome';
+import { Weather } from './weather';
+import { renderMap, renderControls, renderResult, renderWeather, renderInfoButton } from './renderer';
 
 function fieldGrid(w: number, h: number): Biome[][] {
   return Array.from({ length: h }, () => Array(w).fill(Biome.Field));

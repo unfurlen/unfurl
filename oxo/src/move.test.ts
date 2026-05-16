@@ -1,7 +1,7 @@
 import { describe, it, expect } from 'vitest';
-import { Move, InvalidMoveError } from './move.ts';
-import { SIZE } from './grid.ts';
-import { Player } from './player.ts';
+import { Move, InvalidMoveError } from './move';
+import { SIZE } from './grid';
+import { Player } from './player';
 
 describe('Move', () => {
   it('creates a move with valid coordinates and player X', () => {

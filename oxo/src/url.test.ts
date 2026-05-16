@@ -1,7 +1,7 @@
 import { describe, it, expect } from 'vitest';
-import { parseHash, buildHash, URLParseError, getCurrHistory, getFullHistory, getBackUrl, getForwardUrl } from './url.ts';
-import { Move } from './move.ts';
-import { Player } from './player.ts';
+import { parseHash, buildHash, URLParseError, getCurrHistory, getFullHistory, getBackUrl, getForwardUrl } from './url';
+import { Move } from './move';
+import { Player } from './player';
 
 describe('parseHash', () => {
   it('returns empty array for empty hash', () => {

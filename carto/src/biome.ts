@@ -1,4 +1,4 @@
-import { Weather } from './weather.ts';
+import { Weather } from './weather';
 
 type BiomeState = {
   traversable: boolean;

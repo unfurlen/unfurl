@@ -1,5 +1,5 @@
-import { SIZE } from './grid.ts';
-import { Player } from './player.ts';
+import { SIZE } from './grid';
+import { Player } from './player';
 
 export class InvalidMoveError extends Error {
   constructor(row: number, col: number) {

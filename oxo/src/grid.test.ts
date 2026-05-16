@@ -1,8 +1,8 @@
 import { describe, it, expect } from 'vitest';
-import { Grid, InvalidPositionError } from './grid.ts';
-import { Cell } from './cell.ts';
-import { Move } from './move.ts';
-import { Player } from './player.ts';
+import { Grid, InvalidPositionError } from './grid';
+import { Cell } from './cell';
+import { Move } from './move';
+import { Player } from './player';
 
 describe('Grid', () => {
   it.each([

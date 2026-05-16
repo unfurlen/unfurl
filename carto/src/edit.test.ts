@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import { toggleEditMode, cycleTileBiome } from './edit.ts';
+import { toggleEditMode, cycleTileBiome } from './edit';
 
 describe('toggleEditMode', () => {
   it('adds edit mode to bare URL (4 parts)', () => {

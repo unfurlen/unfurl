@@ -1,6 +1,6 @@
 import { describe, it, expect } from 'vitest';
-import { Tile } from './tile.ts';
-import { Biome } from './biome.ts';
+import { Tile } from './tile';
+import { Biome } from './biome';
 
 describe('Tile', () => {
   it('creates unvisited tile', () => {

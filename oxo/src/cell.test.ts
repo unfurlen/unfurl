@@ -1,6 +1,6 @@
 import { describe, it, expect } from 'vitest';
-import { Cell } from './cell.ts';
-import { Player } from './player.ts';
+import { Cell } from './cell';
+import { Player } from './player';
 
 describe('Cell', () => {
   it('creates a cell without a player', () => {

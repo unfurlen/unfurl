@@ -1,4 +1,4 @@
-import { Player } from './player.ts';
+import { Player } from './player';
 
 export class Cell {
   readonly player: Player | null;

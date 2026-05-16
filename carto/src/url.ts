@@ -1,6 +1,6 @@
-import { Map, Direction } from './map.ts';
-import { Biome } from './biome.ts';
-import { Weather } from './weather.ts';
+import { Map, Direction } from './map';
+import { Biome } from './biome';
+import { Weather } from './weather';
 
 export class URLParseError extends Error {
   constructor(input: string) {

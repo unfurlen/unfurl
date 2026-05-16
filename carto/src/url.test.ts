@@ -1,8 +1,8 @@
 import { describe, it, expect } from 'vitest';
-import { Direction } from './map.ts';
-import { Biome } from './biome.ts';
-import { Weather } from './weather.ts';
-import { parseMapUrl, buildMapUrl, getFullHistory, getBackUrl, getForwardUrl, URLParseError } from './url.ts';
+import { Direction } from './map';
+import { Biome } from './biome';
+import { Weather } from './weather';
+import { parseMapUrl, buildMapUrl, getFullHistory, getBackUrl, getForwardUrl, URLParseError } from './url';
 
 describe('parseMapUrl', () => {
   it('parses biome grid', () => {

@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import { Player } from './player.ts';
+import { Player } from './player';
 
 describe('Player', () => {
   it('creates a player at a position', () => {

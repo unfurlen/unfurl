@@ -1,7 +1,7 @@
 import { describe, it, expect } from 'vitest';
-import { Map, Direction, InvalidPositionError, InvalidMapSizeError, InvalidSuppliesError } from './map.ts';
-import { Biome } from './biome.ts';
-import { Weather } from './weather.ts';
+import { Map, Direction, InvalidPositionError, InvalidMapSizeError, InvalidSuppliesError } from './map';
+import { Biome } from './biome';
+import { Weather } from './weather';
 
 function fieldGrid(w: number, h: number): Biome[][] {
   return Array.from({ length: h }, () => Array(w).fill(Biome.Field));

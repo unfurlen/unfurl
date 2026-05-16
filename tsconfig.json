@@ -1,6 +1,8 @@
 {
   "compilerOptions": {
-    "strict": true
+    "strict": true,
+    "moduleResolution": "bundler",
+    "noEmit": true
   },
   "include": ["oxo/src", "carto/src"]
 }

@@ -1,8 +1,8 @@
 import { describe, it, expect, vi } from 'vitest';
-import { Cell } from './cell.ts';
-import { Grid } from './grid.ts';
-import { Player } from './player.ts';
-import { renderCell, renderGrid, renderResult, renderControls } from './renderer.ts';
+import { Cell } from './cell';
+import { Grid } from './grid';
+import { Player } from './player';
+import { renderCell, renderGrid, renderResult, renderControls } from './renderer';
 
 describe('renderCell', () => {
   it('renders an empty cell', () => {

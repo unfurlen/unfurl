@@ -1,7 +1,7 @@
-import { Cell } from './cell.ts';
-import { Grid, SIZE } from './grid.ts';
-import { Player } from './player.ts';
-import { buildHash } from './url.ts';
+import { Cell } from './cell';
+import { Grid, SIZE } from './grid';
+import { Player } from './player';
+import { buildHash } from './url';
 
 export function renderCell(cell: Cell): HTMLElement {
   const div = document.createElement('div');

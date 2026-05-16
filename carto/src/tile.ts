@@ -1,4 +1,4 @@
-import { Biome } from './biome.ts';
+import { Biome } from './biome';
 
 export class Tile {
   constructor(

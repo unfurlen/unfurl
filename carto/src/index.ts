@@ -1,7 +1,7 @@
 import './style.css';
-import { renderMap, renderControls, renderResult, renderWeather, renderInfoButton, renderResetButton, renderEditButton } from './renderer.ts';
-import { parseMapUrl, getFullHistory, getBackUrl, getForwardUrl } from './url.ts';
-import { Direction } from './map.ts';
+import { renderMap, renderControls, renderResult, renderWeather, renderInfoButton, renderResetButton, renderEditButton } from './renderer';
+import { parseMapUrl, getFullHistory, getBackUrl, getForwardUrl } from './url';
+import { Direction } from './map';
 
 let fullHistory: Direction[] = [];
 

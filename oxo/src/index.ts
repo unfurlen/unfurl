@@ -1,7 +1,7 @@
 import './style.css';
-import { Grid } from './grid.ts';
-import { renderGrid, renderResult, renderControls } from './renderer.ts';
-import { parseHash, getCurrHistory, getFullHistory, getBackUrl, getForwardUrl } from './url.ts';
+import { Grid } from './grid';
+import { renderGrid, renderResult, renderControls } from './renderer';
+import { parseHash, getCurrHistory, getFullHistory, getBackUrl, getForwardUrl } from './url';
 
 let fullHistory: number[] = [];
 

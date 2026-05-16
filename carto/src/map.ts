@@ -1,7 +1,7 @@
-import { Tile } from './tile.ts';
-import { Biome } from './biome.ts';
-import { Player } from './player.ts';
-import { Weather } from './weather.ts';
+import { Tile } from './tile';
+import { Biome } from './biome';
+import { Player } from './player';
+import { Weather } from './weather';
 type WeatherType = (typeof Weather)[keyof typeof Weather];
 
 export const Direction = { N: 'N', S: 'S', E: 'E', W: 'W' } as const;

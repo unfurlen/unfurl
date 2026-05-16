@@ -1,6 +1,6 @@
-import { SIZE } from './grid.ts';
-import { Move } from './move.ts';
-import { Player } from './player.ts';
+import { SIZE } from './grid';
+import { Move } from './move';
+import { Player } from './player';
 
 export class URLParseError extends Error {
   constructor(input: string) {

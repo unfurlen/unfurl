@@ -1,6 +1,6 @@
-import { Cell } from './cell.ts';
-import { Move } from './move.ts';
-import { Player } from './player.ts';
+import { Cell } from './cell';
+import { Move } from './move';
+import { Player } from './player';
 
 export const SIZE = 3;
 

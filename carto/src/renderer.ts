@@ -1,7 +1,7 @@
-import { Map, Direction } from './map.ts';
-import { Biome } from './biome.ts';
-import { Weather } from './weather.ts';
-import { buildMapUrl } from './url.ts';
+import { Map, Direction } from './map';
+import { Biome } from './biome';
+import { Weather } from './weather';
+import { buildMapUrl } from './url';
 
 export function renderMap(map: Map): HTMLElement {
   const container = document.createElement('div');
