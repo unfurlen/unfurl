@@ -122,7 +122,7 @@ body.edit-mode {
   justify-content: center;
   margin-bottom: 12px;
   position: relative;
-  width: 100%;
+  min-width: 252px;
 }
 
 .result .num {
@@ -139,8 +139,10 @@ body.edit-mode {
 
 .weather {
   display: flex;
+  justify-content: center;
   gap: 4px;
   margin-bottom: 8px;
+  min-width: 252px;
 }
 
 .weather-icon {
@@ -171,6 +173,7 @@ body.edit-mode {
   display: flex;
   justify-content: space-between;
   width: 100%;
+  min-width: 252px;
   margin-top: 12px;
 }
 
