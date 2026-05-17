@@ -396,6 +396,12 @@ describe('renderResult', () => {
     const el = renderResult(0, 9);
     expect(el.classList.contains('result')).toBe(true);
   });
+
+  it('opens supplies overlay on click in edit mode', () => {
+    const el = renderResult(3, 9, 'edit');
+    (el.querySelectorAll('.num')[1] as HTMLElement).click();
+    expect(document.querySelector('.modal-overlay.visible')).toBeTruthy();
+  });
 });
 
 describe('renderWeather', () => {

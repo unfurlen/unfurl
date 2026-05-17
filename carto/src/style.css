@@ -293,20 +293,63 @@ body.edit-mode {
   font-size: 20px;
 }
 
+.modal-content label {
+  display: block;
+  margin-bottom: 12px;
+  font-size: 16px;
+  color: #3e2c1a;
+}
+
+.input-row {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+
+.modal-content input {
+  width: 40px;
+  padding: 6px;
+  font-family: inherit;
+  font-size: 16px;
+  background: #f0e8d0;
+  border: 1px solid #6b5b45;
+  border-radius: 3px;
+  color: #3e2c1a;
+  text-align: center;
+}
+
+.modal-content button {
+  background: #c4b08a;
+  color: #3e2c1a;
+  border: 1px solid #6b5b45;
+  padding: 8px 16px;
+  cursor: pointer;
+  font-family: 'Crimson Text', serif;
+  font-size: 14px;
+  border-radius: 4px;
+}
+
+.modal-content button:hover {
+  background: #d4c5a9;
+}
+
+
 .modal-content p {
   margin: 8px 0;
   font-size: 16px;
   line-height: 1.4;
 }
 
-.modal-close {
+.modal-content .modal-close {
   position: absolute;
-  top: 8px;
-  right: 8px;
+  top: 4px;
+  right: 4px;
   background: none;
   border: none;
   font-size: 18px;
   cursor: pointer;
   color: #3e2c1a;
-  padding: 4px;
+  padding: 2px 4px;
+  line-height: 1;
 }

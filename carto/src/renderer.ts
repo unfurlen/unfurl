@@ -2,7 +2,8 @@ import { Map, Direction } from './map';
 import { Biome } from './biome';
 import { Weather } from './weather';
 import { buildMapUrl } from './url';
-import { toggleEditMode, cycleTileBiome, setPlayerStart } from './edit';
+import { toggleEditMode, cycleTileBiome, setPlayerStart, setSupplies } from './edit';
+import { showOverlay } from './overlay';
 
 let selectedPlayer = false;
 
@@ -183,10 +184,27 @@ export function applyEditMode(mode: 'play' | 'edit'): void {
   document.body.classList.toggle('edit-mode', mode === 'edit');
 }
 
-export function renderResult(steps: number, supplies: number): HTMLElement {
+export function renderResult(steps: number, supplies: number, mode: 'play' | 'edit' = 'play'): HTMLElement {
   const el = document.createElement('div');
   el.className = 'result';
   el.innerHTML = `👣 <span class="num">${steps}</span>  🎒 <span class="num">${supplies}</span>`;
+
+  if (mode === 'edit') {
+    const suppliesNum = el.querySelectorAll('.num')[1] as HTMLElement;
+    suppliesNum.addEventListener('click', () => {
+      showOverlay({
+        title: 'Starting Supplies',
+        field: { value: `${supplies}` },
+        onSubmit: (val) => {
+          const n = parseInt(val, 10);
+          if (!isNaN(n) && n >= 0) {
+            location.hash = setSupplies(location.hash, n);
+          }
+        }
+      });
+    });
+  }
+
   return el;
 }
 

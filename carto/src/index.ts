@@ -30,7 +30,7 @@ function render() {
   rightGroup.appendChild(renderEditButton(mode));
   rightGroup.appendChild(renderInfoButton());
   resultRow.appendChild(renderResetButton());
-  resultRow.appendChild(renderResult(steps, map.supplies));
+  resultRow.appendChild(renderResult(steps, map.supplies, mode));
   resultRow.appendChild(rightGroup);
 
   const app = document.getElementById('app')!;
