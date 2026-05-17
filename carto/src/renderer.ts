@@ -70,10 +70,13 @@ export function renderMap(map: Map, mode: 'play' | 'edit' = 'play'): HTMLElement
 export function renderControls(
   backUrl: string | null,
   forwardUrl: string | null,
-  onShare: () => void
+  onShare: () => void,
+  mode: 'play' | 'edit' = 'play'
 ): HTMLElement {
   const container = document.createElement('div');
   container.className = 'controls';
+
+  if (mode === 'edit') return container;
 
   const back = document.createElement('button');
   back.className = 'back';

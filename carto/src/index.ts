@@ -45,7 +45,8 @@ function render() {
       } else {
         await navigator.clipboard.writeText(url);
       }
-    }
+    },
+    mode
   ));
 }
 

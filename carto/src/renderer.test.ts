@@ -296,6 +296,11 @@ describe('renderControls', () => {
     const forward = el.querySelector('.forward') as HTMLButtonElement;
     expect(forward.disabled).toBe(true);
   });
+
+  it('renders empty container in edit mode', () => {
+    const el = renderControls('#0', '#1', vi.fn(), 'edit');
+    expect(el.children.length).toBe(0);
+  });
 });
 
 describe('renderEditButton', () => {
