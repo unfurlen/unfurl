@@ -249,6 +249,26 @@ describe('renderMap', () => {
     expect(location.hash).toBe('#WFF:0,0:9:C::e');
   });
 
+  it('clicking player tile adds selected class in edit mode', () => {
+    location.hash = '#FFF:0,0:9:C::e';
+    const map = new Map(0, 0, fieldGrid(2, 2), 9, [Weather.Clear]);
+    const el = renderMap(map, 'edit');
+    const playerTile = el.querySelector('.tile.player') as HTMLElement;
+
+    playerTile.click();
+    expect(playerTile.classList.contains('selected')).toBe(true);
+  });
+
+  it('clicking player tile in edit mode does not cycle biome', () => {
+    location.hash = '#FWF:0,0:9:C::e';
+    const map = new Map(0, 0, [[Biome.Field, Biome.Water, Biome.Field]], 9, [Weather.Clear]);
+    const el = renderMap(map, 'edit');
+    const playerTile = el.querySelector('.tile.player') as HTMLElement;
+
+    playerTile.click();
+    expect(location.hash).toBe('#FWF:0,0:9:C::e');
+  });
+
   it('does not move when expired', () => {
       const map = new Map(0, 0, fieldGrid(3, 3), 1, [Weather.Clear]);
       map.applyMove(Direction.E);
@@ -298,7 +318,7 @@ describe('renderControls', () => {
   });
 
   it('renders empty container in edit mode', () => {
-    const el = renderControls('#0', '#1', vi.fn(), 'edit');
+    const el = renderControls(null, null, vi.fn(), 'edit');
     expect(el.children.length).toBe(0);
   });
 });

@@ -38,7 +38,11 @@ export function renderMap(map: Map, mode: 'play' | 'edit' = 'play'): HTMLElement
 
       if (mode === 'edit') {
         tileEl.addEventListener('click', () => {
-          location.hash = cycleTileBiome(location.hash, row, col);
+          if (row === map.player.row && col === map.player.col) {
+            tileEl.classList.add('selected');
+          } else {
+            location.hash = cycleTileBiome(location.hash, row, col);
+          }
         });
       } else {
         const dRow = Math.abs(row - map.player.row);

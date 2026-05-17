@@ -193,6 +193,11 @@ body.edit-mode {
   background: #d4c5a9;
 }
 
+.tile.player.selected {
+  box-shadow: inset 0 0 12px rgba(255, 215, 0, 0.8);
+  border-color: #ffd700;
+}
+
 .controls button:disabled {
   opacity: 0.4;
   cursor: default;
