@@ -2,7 +2,9 @@ import { Map, Direction } from './map';
 import { Biome } from './biome';
 import { Weather } from './weather';
 import { buildMapUrl } from './url';
-import { toggleEditMode, cycleTileBiome } from './edit';
+import { toggleEditMode, cycleTileBiome, setPlayerStart } from './edit';
+
+let selectedPlayer = false;
 
 export function renderMap(map: Map, mode: 'play' | 'edit' = 'play'): HTMLElement {
   const container = document.createElement('div');
@@ -13,6 +15,7 @@ export function renderMap(map: Map, mode: 'play' | 'edit' = 'play'): HTMLElement
     container.classList.add('expired');
   }
   container.style.gridTemplateColumns = `repeat(${map.width}, 60px)`;
+  selectedPlayer = false;
 
   for (let row = 0; row < map.height; row++) {
     for (let col = 0; col < map.width; col++) {
@@ -38,7 +41,11 @@ export function renderMap(map: Map, mode: 'play' | 'edit' = 'play'): HTMLElement
 
       if (mode === 'edit') {
         tileEl.addEventListener('click', () => {
-          if (row === map.player.row && col === map.player.col) {
+          if (selectedPlayer) {
+            selectedPlayer = false;
+            location.hash = setPlayerStart(location.hash, row, col);
+          } else if (row === map.player.row && col === map.player.col) {
+            selectedPlayer = true;
             tileEl.classList.add('selected');
           } else {
             location.hash = cycleTileBiome(location.hash, row, col);
