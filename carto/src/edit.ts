@@ -38,6 +38,18 @@ export function setWidth(hash: string, n: number): string {
   return '#' + parts.join(':');
 }
 
+export function setHeight(hash: string, n: number): string {
+  if (n < 2 || n > 99) throw new RangeError('Height must be between 2 and 99');
+  const parts = hash.replace(/^#/, '').split(':');
+  const rows = parts[0].split(',');
+  const w = rows[0].length;
+  if (n > rows.length) while (rows.length < n) rows.push('F'.repeat(w));
+  else rows.length = n;
+  parts[0] = rows.join(',');
+  parts[1] = '0,0';
+  return '#' + parts.join(':');
+}
+
 export function toggleEditMode(hash: string): string {
   const parts = hash.replace(/^#/, '').split(':');
   if (parts[parts.length - 1] === 'e') {

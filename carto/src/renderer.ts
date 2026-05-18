@@ -2,7 +2,7 @@ import { Map, Direction } from './map';
 import { Biome } from './biome';
 import { Weather } from './weather';
 import { buildMapUrl } from './url';
-import { toggleEditMode, cycleTileBiome, setPlayerStart, setSupplies, setWidth } from './edit';
+import { toggleEditMode, cycleTileBiome, setPlayerStart, setSupplies, setWidth, setHeight } from './edit';
 import { showOverlay } from './overlay';
 
 let selectedPlayer = false;
@@ -79,10 +79,12 @@ export function renderMap(map: Map, mode: 'play' | 'edit' = 'play'): HTMLElement
   if (mode === 'edit') {
     const wrapper = document.createElement('div');
     wrapper.className = 'grid-wrapper';
-    const btn = document.createElement('button');
-    btn.className = 'resize-btn';
-    btn.textContent = '↔';
-    btn.addEventListener('click', () => {
+    const col = document.createElement('div');
+    col.className = 'grid-col';
+    const widthBtn = document.createElement('button');
+    widthBtn.className = 'resize-btn';
+    widthBtn.textContent = '↔';
+    widthBtn.addEventListener('click', () => {
       showOverlay({
         title: 'Grid Width',
         field: { value: `${map.width}` },
@@ -92,7 +94,23 @@ export function renderMap(map: Map, mode: 'play' | 'edit' = 'play'): HTMLElement
         }
       });
     });
-    wrapper.append(container, btn);
+    const heightBtn = document.createElement('button');
+    heightBtn.className = 'resize-btn';
+    heightBtn.style.alignSelf = 'center';
+    heightBtn.style.marginTop = '-40px';
+    heightBtn.textContent = '↕';
+    heightBtn.addEventListener('click', () => {
+      showOverlay({
+        title: 'Grid Height',
+        field: { value: `${map.height}` },
+        onSubmit: (val) => {
+          const n = parseInt(val, 10);
+          if (!isNaN(n) && n >= 2 && n <= 99) location.hash = setHeight(location.hash, n);
+        }
+      });
+    });
+    col.append(container, widthBtn);
+    wrapper.append(col, heightBtn);
     return wrapper;
   }
 
