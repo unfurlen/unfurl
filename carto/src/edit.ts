@@ -14,13 +14,27 @@ export function cycleTileBiome(hash: string, row: number, col: number): string {
 
 export function setPlayerStart(hash: string, row: number, col: number): string {
   const parts = hash.replace(/^#/, '').split(':');
+  const rows = parts[0].split(',');
+  if (row < 0 || row >= rows.length || col < 0 || col >= rows[0].length) {
+    throw new RangeError(`Tile (${row}, ${col}) out of bounds`);
+  }
   parts[1] = `${row},${col}`;
   return '#' + parts.join(':');
 }
 
 export function setSupplies(hash: string, n: number): string {
+  if (n < 1) throw new RangeError('Supplies must be >= 1');
   const parts = hash.replace(/^#/, '').split(':');
   parts[2] = `${n}`;
+  return '#' + parts.join(':');
+}
+
+export function setWidth(hash: string, n: number): string {
+  if (n < 2 || n > 99) throw new RangeError('Width must be between 2 and 99');
+  const parts = hash.replace(/^#/, '').split(':');
+  const rows = parts[0].split(',');
+  parts[0] = rows.map(r => n > r.length ? r + 'F'.repeat(n - r.length) : r.slice(0, n)).join(',');
+  parts[1] = '0,0';
   return '#' + parts.join(':');
 }
 

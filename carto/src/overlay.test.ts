@@ -39,4 +39,13 @@ describe('showOverlay', () => {
     overlay.click();
     expect(document.querySelector('.modal-overlay')).toBeNull();
   });
+
+  it('calls onSubmit and closes on Enter keypress', () => {
+    const fn = vi.fn();
+    showOverlay({ title: 'T', field: { value: '7' }, onSubmit: fn });
+    const input = document.querySelector('.input-row input') as HTMLElement;
+    input.dispatchEvent(new KeyboardEvent('keydown', { key: 'Enter' }));
+    expect(fn).toHaveBeenCalledWith('7');
+    expect(document.querySelector('.modal-overlay')).toBeNull();
+  });
 });

@@ -187,11 +187,11 @@ export function applyEditMode(mode: 'play' | 'edit'): void {
 export function renderResult(steps: number, supplies: number, mode: 'play' | 'edit' = 'play'): HTMLElement {
   const el = document.createElement('div');
   el.className = 'result';
-  el.innerHTML = `👣 <span class="num">${steps}</span>  🎒 <span class="num">${supplies}</span>`;
+  el.innerHTML = `👣 <span class="num">${steps}</span>  <span class="supplies-area">🎒 <span class="num">${supplies}</span></span>`;
 
   if (mode === 'edit') {
-    const suppliesNum = el.querySelectorAll('.num')[1] as HTMLElement;
-    suppliesNum.addEventListener('click', () => {
+    const suppliesArea = el.querySelector('.supplies-area') as HTMLElement;
+    suppliesArea.addEventListener('click', () => {
       showOverlay({
         title: 'Starting Supplies',
         field: { value: `${supplies}` },

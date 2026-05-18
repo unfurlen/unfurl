@@ -40,6 +40,13 @@ export function showOverlay(config: {
 
   input.focus();
 
+  input.addEventListener('keydown', (e) => {
+    if (e.key === 'Enter') {
+      config.onSubmit(input.value);
+      dismiss();
+    }
+  });
+
   const dismiss = () => overlay.remove();
 
   close.addEventListener('click', dismiss);
