@@ -2,7 +2,7 @@ import { Map, Direction } from './map';
 import { Biome } from './biome';
 import { Weather } from './weather';
 import { buildMapUrl } from './url';
-import { toggleEditMode, cycleTileBiome, setPlayerStart, setSupplies } from './edit';
+import { toggleEditMode, cycleTileBiome, setPlayerStart, setSupplies, setWidth } from './edit';
 import { showOverlay } from './overlay';
 
 let selectedPlayer = false;
@@ -74,6 +74,26 @@ export function renderMap(map: Map, mode: 'play' | 'edit' = 'play'): HTMLElement
 
       container.appendChild(tileEl);
     }
+  }
+
+  if (mode === 'edit') {
+    const wrapper = document.createElement('div');
+    wrapper.className = 'grid-wrapper';
+    const btn = document.createElement('button');
+    btn.className = 'resize-btn';
+    btn.textContent = '↔';
+    btn.addEventListener('click', () => {
+      showOverlay({
+        title: 'Grid Width',
+        field: { value: `${map.width}` },
+        onSubmit: (val) => {
+          const n = parseInt(val, 10);
+          if (!isNaN(n) && n >= 2 && n <= 99) location.hash = setWidth(location.hash, n);
+        }
+      });
+    });
+    wrapper.append(container, btn);
+    return wrapper;
   }
 
   return container;
