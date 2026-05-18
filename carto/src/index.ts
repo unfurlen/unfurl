@@ -9,6 +9,8 @@ function render() {
   const { map, path, mode } = parseMapUrl(location.hash);
   applyEditMode(mode);
 
+  document.body.classList.toggle('wide', map.width * 62 + 4 > window.innerWidth);
+
   if (mode === 'play') {
     for (const dir of path) {
       if (map.isGameOver()) break;
