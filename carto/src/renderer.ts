@@ -2,7 +2,7 @@ import { Map, Direction } from './map';
 import { Biome } from './biome';
 import { Weather } from './weather';
 import { buildMapUrl } from './url';
-import { toggleEditMode, cycleTileBiome, setPlayerStart, setSupplies, setWidth, setHeight, setCycle } from './edit';
+import { toggleEditMode, cycleTileBiome, setPlayerStart, setSupplies, setWidth, setHeight, setCycle, cycleTileWeather } from './edit';
 import { showOverlay } from './overlay';
 
 let selectedPlayer = false;
@@ -259,6 +259,12 @@ export function renderWeather(cycle: string[], currentStep: number, mode: 'play'
     el.textContent = weather === Weather.Clear ? '☀️' : '❄️';
     if (i === currentStep % cycle.length) {
       el.classList.add('current');
+    }
+    if (mode === 'edit') {
+      el.style.cursor = 'pointer';
+      el.addEventListener('click', () => {
+        location.hash = cycleTileWeather(location.hash, i);
+      });
     }
     container.appendChild(el);
   });

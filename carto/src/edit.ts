@@ -58,6 +58,15 @@ export function setCycle(hash: string, n: number): string {
   return '#' + parts.join(':');
 }
 
+export function cycleTileWeather(hash: string, index: number): string {
+  const parts = hash.replace(/^#/, '').split(':');
+  const cycle = parts[3].split('');
+  if (index < 0 || index >= cycle.length) throw new RangeError(`Weather index ${index} out of bounds`);
+  cycle[index] = cycle[index] === 'C' ? 'S' : 'C';
+  parts[3] = cycle.join('');
+  return '#' + parts.join(':');
+}
+
 export function toggleEditMode(hash: string): string {
   const parts = hash.replace(/^#/, '').split(':');
   if (parts[parts.length - 1] === 'e') {
