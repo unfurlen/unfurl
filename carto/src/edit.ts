@@ -30,7 +30,7 @@ export function setSupplies(hash: string, n: number): string {
 }
 
 export function setWidth(hash: string, n: number): string {
-  if (n < 2 || n > 99) throw new RangeError('Width must be between 2 and 99');
+  if (n < 1 || n > 99) throw new RangeError('Width must be between 1 and 99');
   const parts = hash.replace(/^#/, '').split(':');
   const rows = parts[0].split(',');
   parts[0] = rows.map(r => n > r.length ? r + 'F'.repeat(n - r.length) : r.slice(0, n)).join(',');
@@ -39,7 +39,7 @@ export function setWidth(hash: string, n: number): string {
 }
 
 export function setHeight(hash: string, n: number): string {
-  if (n < 2 || n > 99) throw new RangeError('Height must be between 2 and 99');
+  if (n < 1 || n > 99) throw new RangeError('Height must be between 1 and 99');
   const parts = hash.replace(/^#/, '').split(':');
   const rows = parts[0].split(',');
   const w = rows[0].length;

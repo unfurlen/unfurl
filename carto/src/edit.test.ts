@@ -80,8 +80,8 @@ describe('setWidth', () => {
   it('resets player to 0,0', () => {
     expect(setWidth('#FFF:2,3:9:C::e', 4)).toBe('#FFFF:0,0:9:C::e');
   });
-  it('throws for n < 2', () => {
-    expect(() => setWidth('#FFF:0,0:9:C::e', 1)).toThrow(RangeError);
+  it('throws for n < 1', () => {
+    expect(() => setWidth('#FFF:0,0:9:C::e', 0)).toThrow(RangeError);
   });
   it('throws for n > 99', () => {
     expect(() => setWidth('#FFF:0,0:9:C::e', 100)).toThrow(RangeError);
@@ -98,8 +98,8 @@ describe('setHeight', () => {
   it('resets player to 0,0', () => {
     expect(setHeight('#FFF,FFF:1,0:9:C::e', 3)).toBe('#FFF,FFF,FFF:0,0:9:C::e');
   });
-  it('throws for n < 2', () => {
-    expect(() => setHeight('#FFF:0,0:9:C::e', 1)).toThrow(RangeError);
+  it('throws for n < 1', () => {
+    expect(() => setHeight('#FFF:0,0:9:C::e', 0)).toThrow(RangeError);
   });
   it('throws for n > 99', () => {
     expect(() => setHeight('#FFF:0,0:9:C::e', 100)).toThrow(RangeError);

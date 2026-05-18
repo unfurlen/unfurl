@@ -90,7 +90,7 @@ export function renderMap(map: Map, mode: 'play' | 'edit' = 'play'): HTMLElement
         field: { value: `${map.width}` },
         onSubmit: (val) => {
           const n = parseInt(val, 10);
-          if (!isNaN(n) && n >= 2 && n <= 99) location.hash = setWidth(location.hash, n);
+          if (!isNaN(n) && n >= 1 && n <= 99) location.hash = setWidth(location.hash, n);
         }
       });
     });
@@ -105,7 +105,7 @@ export function renderMap(map: Map, mode: 'play' | 'edit' = 'play'): HTMLElement
         field: { value: `${map.height}` },
         onSubmit: (val) => {
           const n = parseInt(val, 10);
-          if (!isNaN(n) && n >= 2 && n <= 99) location.hash = setHeight(location.hash, n);
+          if (!isNaN(n) && n >= 1 && n <= 99) location.hash = setHeight(location.hash, n);
         }
       });
     });
