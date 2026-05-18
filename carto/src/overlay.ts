@@ -39,6 +39,7 @@ export function showOverlay(config: {
   document.body.appendChild(overlay);
 
   input.focus();
+  input.select();
 
   input.addEventListener('keydown', (e) => {
     if (e.key === 'Enter') {
