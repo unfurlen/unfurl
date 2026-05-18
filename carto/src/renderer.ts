@@ -2,7 +2,7 @@ import { Map, Direction } from './map';
 import { Biome } from './biome';
 import { Weather } from './weather';
 import { buildMapUrl } from './url';
-import { toggleEditMode, cycleTileBiome, setPlayerStart, setSupplies, setWidth, setHeight } from './edit';
+import { toggleEditMode, cycleTileBiome, setPlayerStart, setSupplies, setWidth, setHeight, setCycle } from './edit';
 import { showOverlay } from './overlay';
 
 let selectedPlayer = false;
@@ -79,6 +79,7 @@ export function renderMap(map: Map, mode: 'play' | 'edit' = 'play'): HTMLElement
   if (mode === 'edit') {
     const wrapper = document.createElement('div');
     wrapper.className = 'grid-wrapper';
+    wrapper.style.position = 'relative';
     const col = document.createElement('div');
     col.className = 'grid-col';
     const widthBtn = document.createElement('button');
@@ -96,8 +97,10 @@ export function renderMap(map: Map, mode: 'play' | 'edit' = 'play'): HTMLElement
     });
     const heightBtn = document.createElement('button');
     heightBtn.className = 'resize-btn';
-    heightBtn.style.alignSelf = 'center';
-    heightBtn.style.marginTop = '-40px';
+    heightBtn.style.position = 'absolute';
+    heightBtn.style.right = '-36px';
+    heightBtn.style.top = '50%';
+    heightBtn.style.transform = 'translateY(-50%)';
     heightBtn.textContent = '↕';
     heightBtn.addEventListener('click', () => {
       showOverlay({
@@ -246,7 +249,7 @@ export function renderResult(steps: number, supplies: number, mode: 'play' | 'ed
   return el;
 }
 
-export function renderWeather(cycle: string[], currentStep: number): HTMLElement {
+export function renderWeather(cycle: string[], currentStep: number, mode: 'play' | 'edit' = 'play'): HTMLElement {
   const container = document.createElement('div');
   container.className = 'weather';
   cycle.forEach((weather, i) => {
@@ -259,5 +262,29 @@ export function renderWeather(cycle: string[], currentStep: number): HTMLElement
     }
     container.appendChild(el);
   });
+
+  if (mode === 'edit') {
+    const wrapper = document.createElement('div');
+    wrapper.style.display = 'flex';
+    wrapper.style.flexDirection = 'column';
+    wrapper.style.alignItems = 'center';
+    wrapper.style.gap = '4px';
+    const btn = document.createElement('button');
+    btn.className = 'resize-btn';
+    btn.textContent = '↔';
+    btn.addEventListener('click', () => {
+      showOverlay({
+        title: 'Weather Cycle Length',
+        field: { value: `${cycle.length}` },
+        onSubmit: (val) => {
+          const n = parseInt(val, 10);
+          if (!isNaN(n) && n >= 1 && n <= 99) location.hash = setCycle(location.hash, n);
+        }
+      });
+    });
+    wrapper.append(btn, container);
+    return wrapper;
+  }
+
   return container;
 }

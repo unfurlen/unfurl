@@ -279,6 +279,21 @@ describe('renderMap', () => {
     expect(location.hash).toBe('#FWF:0,0:9:C::e');
   });
 
+  it('shows resize buttons in edit mode', () => {
+    const map = new Map(0, 0, fieldGrid(3, 3), 9, [Weather.Clear]);
+    const el = renderMap(map, 'edit');
+    const btns = el.querySelectorAll('.resize-btn');
+    expect(btns.length).toBe(2);
+    expect(btns[0].textContent).toBe('↔');
+    expect(btns[1].textContent).toBe('↕');
+  });
+
+  it('does not show resize buttons in play mode', () => {
+    const map = new Map(0, 0, fieldGrid(3, 3), 9, [Weather.Clear]);
+    const el = renderMap(map, 'play');
+    expect(el.querySelector('.resize-btn')).toBeFalsy();
+  });
+
   it('does not move when expired', () => {
       const map = new Map(0, 0, fieldGrid(3, 3), 1, [Weather.Clear]);
       map.applyMove(Direction.E);
@@ -418,6 +433,16 @@ describe('renderWeather', () => {
   it('highlights weather at current step modulo cycle', () => {
     const el = renderWeather([Weather.Clear, Weather.Snow], 3);
     expect(el.children[1].classList.contains('current')).toBe(true);
+  });
+
+  it('shows cycle resize button in edit mode', () => {
+    const el = renderWeather([Weather.Clear, Weather.Snow], 0, 'edit');
+    expect(el.querySelector('.resize-btn')).toBeTruthy();
+  });
+
+  it('does not show cycle resize button in play mode', () => {
+    const el = renderWeather([Weather.Clear, Weather.Snow], 0, 'play');
+    expect(el.querySelector('.resize-btn')).toBeFalsy();
   });
 });
 

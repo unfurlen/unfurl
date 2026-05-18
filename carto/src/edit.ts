@@ -50,6 +50,14 @@ export function setHeight(hash: string, n: number): string {
   return '#' + parts.join(':');
 }
 
+export function setCycle(hash: string, n: number): string {
+  if (n < 1 || n > 99) throw new RangeError('Cycle length must be between 1 and 99');
+  const parts = hash.replace(/^#/, '').split(':');
+  const cycle = parts[3];
+  parts[3] = n > cycle.length ? cycle + 'C'.repeat(n - cycle.length) : cycle.slice(0, n);
+  return '#' + parts.join(':');
+}
+
 export function toggleEditMode(hash: string): string {
   const parts = hash.replace(/^#/, '').split(':');
   if (parts[parts.length - 1] === 'e') {

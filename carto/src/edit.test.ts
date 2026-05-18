@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import { toggleEditMode, cycleTileBiome, setPlayerStart, setSupplies, setWidth, setHeight } from './edit';
+import { toggleEditMode, cycleTileBiome, setPlayerStart, setSupplies, setWidth, setHeight, setCycle } from './edit';
 
 describe('toggleEditMode', () => {
   it('adds edit mode to bare URL (4 parts)', () => {
@@ -103,5 +103,20 @@ describe('setHeight', () => {
   });
   it('throws for n > 99', () => {
     expect(() => setHeight('#FFF:0,0:9:C::e', 100)).toThrow(RangeError);
+  });
+});
+
+describe('setCycle', () => {
+  it('truncates cycle when shorter', () => {
+    expect(setCycle('#FFF:0,0:9:CSCSC::e', 3)).toBe('#FFF:0,0:9:CSC::e');
+  });
+  it('pads with C when longer', () => {
+    expect(setCycle('#FFF:0,0:9:CS::e', 4)).toBe('#FFF:0,0:9:CSCC::e');
+  });
+  it('throws for n < 1', () => {
+    expect(() => setCycle('#FFF:0,0:9:C::e', 0)).toThrow(RangeError);
+  });
+  it('throws for n > 99', () => {
+    expect(() => setCycle('#FFF:0,0:9:C::e', 100)).toThrow(RangeError);
   });
 });

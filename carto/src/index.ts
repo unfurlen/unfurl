@@ -34,7 +34,7 @@ function render() {
   resultRow.appendChild(rightGroup);
 
   const app = document.getElementById('app')!;
-  app.replaceChildren(renderWeather(map.weatherCycle, path.length), resultRow, renderMap(map, mode));
+  app.replaceChildren(renderWeather(map.weatherCycle, path.length, mode), resultRow, renderMap(map, mode));
   app.appendChild(renderControls(
     backUrl,
     forwardUrl,
